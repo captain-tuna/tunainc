@@ -1,134 +1,1078 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="VdAwucyhtwFxnF-GKberpjneoTFAXbCku0hfofH0OZU" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tuna Inc. — Official Image Archive</title>
+```
+<meta name="google-site-verification" content="VdAwucyhtwFxnF-GKberpjneoTFAXbCku0hfofH0OZU" />
 
-    <meta name="description" content="Official Tuna Inc. image archive featuring Tuna Inc. logos, departments, projects, facilities and more.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b0b0d;
-            color: white;
-        }
+<title>Tuna Inc. — Official Image Archive</title>
 
-        header {
-            padding: 50px 20px;
-            text-align: center;
-            background: #111116;
-            border-bottom: 1px solid #29292f;
-        }
+<meta name="description" content="Official Tuna Inc. image archive featuring Tuna Inc., Tuna Air, Tuna Security, Tuna Hazards, Tuna Meteorological Agency and other organisations, departments and projects.">
+
+<meta name="keywords" content="Tuna Inc, Tuna Incorporated, Tuna Air, Tunair, Tuna Security, Tuna Hazards, Tuna Meteorological Agency, TMA, Roblox, Plane Crazy">
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #08080b;
+        color: white;
+    }
+
+    /* BACKGROUND */
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.12;
+        background-image:
+            linear-gradient(#8d35c7 1px, transparent 1px),
+            linear-gradient(90deg, #8d35c7 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: linear-gradient(to bottom, black, transparent 75%);
+    }
+
+    /* HEADER */
+
+    header {
+        position: relative;
+        padding: 75px 20px 60px;
+        text-align: center;
+        background:
+            radial-gradient(circle at center, #2b1238 0%, #111116 42%, #08080b 100%);
+        border-bottom: 1px solid #29292f;
+    }
+
+    .logo-mark {
+        width: 76px;
+        height: 76px;
+        margin: 0 auto 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 2px solid #8d35c7;
+        border-radius: 20px;
+
+        font-size: 27px;
+        font-weight: bold;
+
+        box-shadow:
+            0 0 25px rgba(141, 53, 199, 0.25),
+            inset 0 0 20px rgba(141, 53, 199, 0.08);
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 50px;
+        letter-spacing: 5px;
+    }
+
+    header p {
+        margin: 12px 0 0;
+        color: #b45ee5;
+        font-size: 18px;
+    }
+
+    .subtitle {
+        max-width: 700px;
+        margin: 20px auto 0;
+        color: #888;
+        line-height: 1.7;
+    }
+
+    .official {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 7px 13px;
+
+        border: 1px solid #3b2048;
+        border-radius: 20px;
+
+        background: #160d1b;
+        color: #b45ee5;
+
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    /* STATS */
+
+    .stats {
+        max-width: 850px;
+        margin: 40px auto 0;
+        padding: 0 20px;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .stat {
+        padding: 20px;
+
+        background: rgba(21, 21, 26, 0.85);
+        border: 1px solid #29292f;
+        border-radius: 13px;
+    }
+
+    .stat strong {
+        display: block;
+        color: #b45ee5;
+        font-size: 27px;
+    }
+
+    .stat span {
+        color: #777;
+        font-size: 13px;
+    }
+
+    /* SECTION */
+
+    .section {
+        max-width: 1200px;
+        margin: 55px auto 25px;
+        padding: 0 20px;
+    }
+
+    .section h2 {
+        margin: 0;
+        font-size: 26px;
+    }
+
+    .section p {
+        color: #777;
+        line-height: 1.6;
+    }
+
+    /* CONTROLS */
+
+    .controls {
+        max-width: 1200px;
+        margin: 30px auto 0;
+        padding: 0 20px;
+    }
+
+    .search {
+        width: 100%;
+        padding: 16px 18px;
+
+        background: #15151a;
+        color: white;
+
+        border: 1px solid #29292f;
+        border-radius: 11px;
+
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search:focus {
+        border-color: #8d35c7;
+        box-shadow: 0 0 18px rgba(141, 53, 199, 0.15);
+    }
+
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 15px;
+    }
+
+    .filter {
+        padding: 9px 15px;
+
+        background: #15151a;
+        color: #999;
+
+        border: 1px solid #29292f;
+        border-radius: 20px;
+
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .filter:hover,
+    .filter.active {
+        background: #8d35c7;
+        color: white;
+        border-color: #8d35c7;
+    }
+
+    .result-count {
+        margin-top: 12px;
+        color: #666;
+        font-size: 13px;
+    }
+
+    /* FEATURED */
+
+    .featured {
+        max-width: 1200px;
+        margin: 35px auto 0;
+        padding: 0 20px;
+    }
+
+    .featured-box {
+        padding: 25px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+
+        background: linear-gradient(
+            135deg,
+            #17111b,
+            #111116
+        );
+
+        border: 1px solid #35213e;
+        border-radius: 15px;
+    }
+
+    .featured-box h2 {
+        margin: 0 0 8px;
+    }
+
+    .featured-box p {
+        margin: 0;
+        color: #777;
+        line-height: 1.5;
+    }
+
+    .featured-label {
+        flex-shrink: 0;
+
+        padding: 9px 14px;
+
+        background: #8d35c7;
+        border-radius: 8px;
+
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* GALLERY */
+
+    .gallery {
+        max-width: 1200px;
+        margin: 30px auto 70px;
+        padding: 0 20px;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        background: #15151a;
+        border: 1px solid #29292f;
+        border-radius: 14px;
+        overflow: hidden;
+
+        transition:
+            transform 0.25s,
+            border-color 0.25s,
+            box-shadow 0.25s;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        border-color: #8d35c7;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .image-container {
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        background: white;
+    }
+
+    .card img {
+        width: 100%;
+        height: 220px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: transform 0.3s;
+    }
+
+    .card:hover img {
+        transform: scale(1.04);
+    }
+
+    .image-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+
+        padding: 5px 8px;
+
+        background: rgba(0, 0, 0, 0.75);
+        border-radius: 5px;
+
+        color: white;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card-content {
+        padding: 18px;
+    }
+
+    .card h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+    }
+
+    .card p {
+        margin: 0;
+
+        color: #777;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .tag {
+        display: inline-block;
+        margin-top: 14px;
+
+        padding: 5px 9px;
+
+        background: #24132c;
+        color: #b45ee5;
+
+        border-radius: 6px;
+
+        font-size: 10px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* EMPTY */
+
+    .no-results {
+        display: none;
+
+        grid-column: 1 / -1;
+
+        padding: 60px;
+        text-align: center;
+
+        color: #666;
+    }
+
+    /* ARCHIVE INFO */
+
+    .info-grid {
+        max-width: 1200px;
+        margin: 0 auto 70px;
+        padding: 0 20px;
+
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .info-box {
+        padding: 25px;
+
+        background: #111116;
+        border: 1px solid #29292f;
+        border-radius: 13px;
+    }
+
+    .info-box h3 {
+        margin-top: 0;
+    }
+
+    .info-box p {
+        color: #777;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+    /* MODAL */
+
+    .modal {
+        display: none;
+
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.92);
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 30px;
+    }
+
+    .modal img {
+        max-width: 90%;
+        max-height: 85vh;
+
+        object-fit: contain;
+
+        background: white;
+        border-radius: 10px;
+
+        box-shadow: 0 0 60px rgba(141, 53, 199, 0.2);
+    }
+
+    .close {
+        position: absolute;
+        top: 18px;
+        right: 30px;
+
+        color: white;
+        font-size: 40px;
+
+        cursor: pointer;
+    }
+
+    /* FOOTER */
+
+    footer {
+        padding: 45px 20px;
+
+        border-top: 1px solid #1d1d22;
+
+        text-align: center;
+        color: #555;
+    }
+
+    footer strong {
+        color: #999;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
 
         h1 {
-            margin: 0;
-            font-size: 42px;
-            letter-spacing: 2px;
+            font-size: 35px;
         }
 
-        header p {
-            color: #aaa;
-            font-size: 18px;
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-box {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .gallery {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr;
         }
 
-        .card {
-            background: #15151a;
-            border: 1px solid #29292f;
-            border-radius: 14px;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-        }
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #8d35c7;
-        }
+</style>
+```
 
-        .card img {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: #ffffff;
-            display: block;
-        }
-
-        .card h2 {
-            font-size: 18px;
-            margin: 18px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #777;
-        }
-    </style>
 </head>
 
 <body>
 
 <header>
-    <h1>TUNA INC.</h1>
-    <p>Official Tuna Inc. Image Archive</p>
+
+```
+<div class="logo-mark">
+    TI
+</div>
+
+<h1>TUNA INC.</h1>
+
+<p>Official Image Archive</p>
+
+<div class="subtitle">
+    The official collection of Tuna Inc. logos, organisations,
+    departments, projects and visual assets.
+</div>
+
+<div class="official">
+    Official Tuna Inc. Archive
+</div>
+
+<div class="stats">
+
+    <div class="stat">
+        <strong id="imageCount">6</strong>
+        <span>Archived Images</span>
+    </div>
+
+    <div class="stat">
+        <strong>5</strong>
+        <span>Archive Categories</span>
+    </div>
+
+    <div class="stat">
+        <strong>2026</strong>
+        <span>Archive Year</span>
+    </div>
+
+</div>
+```
+
 </header>
 
-<main class="gallery">
+<div class="section">
 
-    <div class="card">
-        <img src="Tuna%20Inc%20Logo.png"
-             alt="Tuna Inc. Logo">
+```
+<h2>Welcome to the Archive</h2>
+
+<p>
+    Explore official Tuna Inc. imagery and logos.
+    Use the search bar or category filters to find
+    specific organisations and departments.
+</p>
+```
+
+</div>
+
+<div class="featured">
+
+```
+<div class="featured-box">
+
+    <div>
+
+        <h2>Featured Archive</h2>
+
+        <p>
+            Official Tuna Inc. visual identities and
+            organisational logos collected in one place.
+        </p>
+
+    </div>
+
+    <div class="featured-label">
+        Official
+    </div>
+
+</div>
+```
+
+</div>
+
+<section class="controls">
+
+```
+<input
+    type="text"
+    class="search"
+    id="search"
+    placeholder="Search the Tuna Inc. archive..."
+    aria-label="Search the Tuna Inc. image archive"
+>
+
+<div class="filters">
+
+    <button class="filter active" data-filter="all">
+        All
+    </button>
+
+    <button class="filter" data-filter="corporate">
+        Tuna Inc.
+    </button>
+
+    <button class="filter" data-filter="aviation">
+        Tunair & Tuna Security
+    </button>
+
+    <button class="filter" data-filter="security">
+        Tuna Security
+    </button>
+
+    <button class="filter" data-filter="research">
+        Research
+    </button>
+
+</div>
+
+<div class="result-count" id="resultCount">
+    Showing 6 images
+</div>
+```
+
+</section>
+
+<main class="gallery" id="gallery">
+
+```
+<!-- TUNA INC -->
+
+<div class="card"
+     data-category="corporate research">
+
+    <div class="image-container">
+
+        <img
+            src="Tuna%20Inc%20Logo.png"
+            alt="Tuna Inc. official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
+    </div>
+
+    <div class="card-content">
+
         <h2>Tuna Inc. Logo</h2>
+
+        <p>
+            Official corporate logo of Tuna Incorporated.
+        </p>
+
+        <span class="tag">
+            Tuna Inc.
+        </span>
+
     </div>
 
-    <div class="card">
-        <img src="Tuna%20Air%20Logo.png"
-             alt="Tuna Air Logo">
-        <h2>Tuna Air Logo</h2>
+</div>
+
+
+<!-- TUNAIR -->
+
+<div class="card"
+     data-category="aviation">
+
+    <div class="image-container">
+
+        <img
+            src="Tuna%20Air%20Logo.png"
+            alt="Tunair official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
     </div>
 
-    <div class="card">
-        <img src="Tuna%20Security%20Logo.png"
-             alt="Tuna Security Logo">
+    <div class="card-content">
+
+        <h2>Tunair Logo</h2>
+
+        <p>
+            Official logo representing Tunair
+            and its aviation operations.
+        </p>
+
+        <span class="tag">
+            Aviation
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- TUNA SECURITY -->
+
+<div class="card"
+     data-category="aviation security">
+
+    <div class="image-container">
+
+        <img
+            src="Tuna%20Security%20Logo.png"
+            alt="Tuna Security official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
+    </div>
+
+    <div class="card-content">
+
         <h2>Tuna Security Logo</h2>
+
+        <p>
+            Official visual identity of Tuna Security.
+        </p>
+
+        <span class="tag">
+            Security
+        </span>
+
     </div>
 
-    <div class="card">
-        <img src="Tuna%20Hazards%20Logo.png"
-             alt="Tuna Hazards Logo">
+</div>
+
+
+<!-- TUNA HAZARDS -->
+
+<div class="card"
+     data-category="research">
+
+    <div class="image-container">
+
+        <img
+            src="Tuna%20Hazards%20Logo.png"
+            alt="Tuna Hazards official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
+    </div>
+
+    <div class="card-content">
+
         <h2>Tuna Hazards Logo</h2>
+
+        <p>
+            Official logo for Tuna Hazards
+            and hazard-related operations.
+        </p>
+
+        <span class="tag">
+            Research
+        </span>
+
     </div>
 
-    <div class="card">
-        <img src="Tuna%20Inc.%20Cafe%20Logo.png"
-             alt="Tuna Inc. Cafe Logo">
+</div>
+
+
+<!-- TUNA CAFE -->
+
+<div class="card"
+     data-category="corporate">
+
+    <div class="image-container">
+
+        <img
+            src="Tuna%20Inc.%20Cafe%20Logo.png"
+            alt="Tuna Inc. Cafe official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
+    </div>
+
+    <div class="card-content">
+
         <h2>Tuna Inc. Cafe Logo</h2>
+
+        <p>
+            Official visual identity of the
+            Tuna Inc. Cafe.
+        </p>
+
+        <span class="tag">
+            Tuna Inc.
+        </span>
+
     </div>
 
-    <div class="card">
-        <img src="T.M.A%20Logo.png"
-             alt="Tuna Military Authority Logo">
-        <h2>T.M.A. Logo</h2>
+</div>
+
+
+<!-- TMA -->
+
+<div class="card"
+     data-category="research">
+
+    <div class="image-container">
+
+        <img
+            src="T.M.A%20Logo.png"
+            alt="Tuna Meteorological Agency official logo"
+            onclick="openImage(this.src)"
+        >
+
+        <div class="image-badge">
+            Official
+        </div>
+
     </div>
+
+    <div class="card-content">
+
+        <h2>T.M.A. Logo</h2>
+
+        <p>
+            Official logo of the Tuna Meteorological Agency.
+        </p>
+
+        <span class="tag">
+            Research
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="no-results" id="noResults">
+    No archive images found.
+</div>
+```
 
 </main>
 
+<section class="section">
+
+```
+<h2>About the Archive</h2>
+```
+
+</section>
+
+<div class="info-grid">
+
+```
+<div class="info-box">
+
+    <h3>Corporate</h3>
+
+    <p>
+        Official Tuna Inc. corporate organisations
+        and associated services.
+    </p>
+
+</div>
+
+
+<div class="info-box">
+
+    <h3>Aviation & Security</h3>
+
+    <p>
+        Visual identities associated with Tunair
+        and Tuna Security operations.
+    </p>
+
+</div>
+
+
+<div class="info-box">
+
+    <h3>Research</h3>
+
+    <p>
+        Logos connected with Tuna Inc. research,
+        meteorology and hazard-related activities.
+    </p>
+
+</div>
+```
+
+</div>
+
+<!-- IMAGE MODAL -->
+
+<div
+    class="modal"
+    id="modal"
+    onclick="closeImage()"
+>
+
+```
+<span class="close">
+    &times;
+</span>
+
+<img
+    id="modalImage"
+    src=""
+    alt="Expanded Tuna Inc. archive image"
+>
+```
+
+</div>
+
 <footer>
-    © Tuna Inc. — Official Archive
+
+```
+<strong>Tuna Inc.</strong>
+— Official Image Archive
+
+<br><br>
+
+© Tuna Inc. 2026
+```
+
 </footer>
+
+<script>
+
+    const search =
+        document.getElementById("search");
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    const filters =
+        document.querySelectorAll(".filter");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    const resultCount =
+        document.getElementById("resultCount");
+
+    let currentFilter = "all";
+
+
+    function filterCards() {
+
+        const query =
+            search.value.toLowerCase().trim();
+
+        let visible = 0;
+
+
+        cards.forEach(card => {
+
+            const text =
+                card.innerText.toLowerCase();
+
+            const categories =
+                card.dataset.category.split(" ");
+
+
+            const matchesSearch =
+                text.includes(query);
+
+            const matchesFilter =
+                currentFilter === "all" ||
+                categories.includes(currentFilter);
+
+
+            if (matchesSearch && matchesFilter) {
+
+                card.style.display = "";
+
+                visible++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        noResults.style.display =
+            visible === 0 ? "block" : "none";
+
+
+        resultCount.textContent =
+            `Showing ${visible} image${visible === 1 ? "" : "s"}`;
+
+    }
+
+
+    search.addEventListener(
+        "input",
+        filterCards
+    );
+
+
+    filters.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                filters.forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+                button.classList.add("active");
+
+                currentFilter =
+                    button.dataset.filter;
+
+                filterCards();
+
+            }
+        );
+
+    });
+
+
+    function openImage(src) {
+
+        document.getElementById(
+            "modalImage"
+        ).src = src;
+
+        document.getElementById(
+            "modal"
+        ).style.display = "flex";
+
+    }
+
+
+    function closeImage() {
+
+        document.getElementById(
+            "modal"
+        ).style.display = "none";
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Escape") {
+                closeImage();
+            }
+
+        }
+    );
+
+
+</script>
 
 </body>
 </html>
