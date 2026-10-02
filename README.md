@@ -1,2 +1,2 @@
-# tunainc
+# tuna inc
 Tuna Inc.
