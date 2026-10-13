@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aircraft — Tuna Inc.</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #111;
+            background-image:
+                linear-gradient(
+                    rgba(10, 10, 10, 0.76),
+                    rgba(10, 10, 10, 0.88)
+                ),
+                url("planeimage1.PNG");
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #eee;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            padding: 24px 6%;
+            background: rgba(15, 15, 15, 0.95);
+            border-bottom: 1px solid #303030;
+        }
+
+        header a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        header a:hover {
+            color: #fff;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 42px 24px 70px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+
+        .intro {
+            margin: 0 0 32px;
+            color: #bbb;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .section-title {
+            margin: 42px 0 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #444;
+            font-size: 21px;
+            font-weight: 500;
+        }
+
+        .aircraft-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .aircraft {
+            display: grid;
+            grid-template-columns: 260px minmax(0, 1fr);
+            align-items: center;
+            gap: 26px;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            transition: border-color 0.2s;
+        }
+
+        .aircraft:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .aircraft-image {
+            width: 100%;
+            height: 155px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid #303030;
+            padding: 10px;
+        }
+
+        .aircraft-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .aircraft-details {
+            min-width: 0;
+        }
+
+        .aircraft h3 {
+            margin: 0 0 12px;
+            color: #fff;
+            font-size: 21px;
+            font-weight: 500;
+        }
+
+        .aircraft p {
+            margin: 0;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.75;
+            white-space: normal;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            background: rgba(15, 15, 15, 0.95);
+            border-top: 1px solid #303030;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                background-attachment: scroll;
+            }
+
+            main {
+                padding: 30px 14px 45px;
+            }
+
+            .aircraft {
+                grid-template-columns: 1fr;
+                gap: 17px;
+                padding: 15px;
+            }
+
+            .aircraft-image {
+                height: 190px;
+            }
+
+            .aircraft h3 {
+                font-size: 19px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html">Home</a>
+    </header>
+
+    <main>
+        <h1>Aircraft</h1>
+        <p class="intro">
+            The aircraft developed and operated by Tuna Inc. and its branches.
+        </p>
+
+        <h2 class="section-title">AB Series</h2>
+
+        <div class="aircraft-list">
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab100-removebg-preview (1).png"
+                         alt="AB-100 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-100</h3>
+                    <p>
+                        A short-range regional airliner with two rear-mounted
+                        engines. It carries 9 passengers, 2 pilots and 1 crew
+                        member, with a maximum speed of 700 SPS.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab200-removebg-preview (1).png"
+                         alt="AB-200 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-200</h3>
+                    <p>
+                        An extended version of the AB-100. It uses the same
+                        basic airframe, lengthened by three blocks, with
+                        two additional passenger seats.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab400-removebg-preview (1).png"
+                         alt="AB-400 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-400</h3>
+                    <p>
+                        An extended AB-200 with a further five blocks of
+                        length. It accommodates 14 passengers, 2 pilots
+                        and 1 crew member, with a maximum speed of 790 SPS.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab500-removebg-preview (1).png"
+                         alt="AB-500 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-500</h3>
+                    <p>
+                        A full-plot-length development of the AB-100,
+                        carrying 20 passengers, 3 crew members and 2 pilots.
+                        In 2024, it became infamous after being hijacked
+                        by evilcat and crashing into the ocean.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab700-removebg-preview (1).png"
+                         alt="AB-700 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-700</h3>
+                    <p>
+                        The best-known AB-100 variant. This full-plot-length
+                        aircraft carries 25 passengers, 4 crew members and
+                        2 pilots. Its numerical livery changes colour
+                        whenever Tuna Inc. reaches a new membership milestone.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab730-removebg-preview (1).png"
+                         alt="AB-730 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-730</h3>
+                    <p>
+                        A modified AB-700 equipped with a cargo hatch
+                        beneath the aircraft. It is used to support
+                        research missions and transport equipment.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab800-removebg-preview (1).png"
+                         alt="AB-800 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-800</h3>
+                    <p>
+                        The smallest aircraft produced for commercial
+                        flights, with room for 6 passengers, 1 crew member
+                        and 2 pilots. It featured in a Tunair video, and
+                        Rickje has flown on this aircraft.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab900-removebg-preview (1).png"
+                         alt="AB-900 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-900</h3>
+                    <p>
+                        The first four-engine aircraft and first widebody
+                        in the AB series. It carries 180 passengers, 6 crew
+                        members, 2 pilots and 1 flight engineer. Its
+                        unusual tendency to drift through the air has
+                        made it a regular subject of jokes.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab1000-removebg-preview (1).png"
+                         alt="AB-1000 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1000</h3>
+                    <p>
+                        Inspired by the Airbus A380, the AB-1000 was the
+                        first double-decker in the AB series. It carries
+                        340 passengers, 10 crew members and 2 pilots,
+                        powered by four engines. Rickje has flown on it.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab1100.png" alt="AB-1100 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1100</h3>
+                    <p>
+                        A more modern AB aircraft featuring two rear-mounted
+                        engines, built-in airstairs and ground-service
+                        capabilities. It accommodates 10 passengers,
+                        1 crew member and 2 pilots.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="AB-1200.png" alt="AB-1200 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1200</h3>
+                    <p>
+                        Tuna Inc.'s most famous aircraft, with four units
+                        built for different roles.
+                    </p>
+                    <p style="margin-top: 12px;">
+                        <strong>001 — HAZARDOUS:</strong> The Tuna Inc. AOC,
+                        transporting executives and personnel in dangerous
+                        situations.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>002 — SECRECY:</strong> A black-and-gold
+                        Tuna Security reconnaissance aircraft equipped
+                        with a rooftop AWACS system for night operations.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>003 — OVERWEIGHT:</strong> A cargo variant
+                        with two rear butterfly doors and built-in cargo
+                        lifts. In August 2026, it was converted into an
+                        experimental hyperfuel-reactor-powered aircraft.
+                    </p>
+                    <p style="margin-top: 8px;">
+                        <strong>004 — OPALITE:</strong> The commercial
+                        variant, seating 30 economy passengers and
+                        8 business-class passengers, with 5 crew members
+                        and 2 pilots. Rickje has flown on it.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab1400.png" alt="AB-1400 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1400</h3>
+                    <p>
+                        The largest AB aircraft, with a double-deck cabin
+                        stretching 2.7 plots in length. It seats 460
+                        passengers, with 2 pilots and space for 10 crew
+                        members. Despite its size, it is known for poor
+                        flight performance and a tendency to stall.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab1500.png" alt="AB-1500 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1500</h3>
+                    <p>
+                        Built specifically for [EX]CLUSIVE executive
+                        transport. It features 2 pilots, five reclining
+                        seats for executive personnel, a toilet and
+                        a nuclear launch room at the rear.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="ab1600.png" alt="AB-1600 aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>AB-1600</h3>
+                    <p>
+                        Designed for efficient cargo operations, the
+                        AB-1600 features the largest engines of any
+                        Tuna Inc. vehicle, with two enormous jets built
+                        into its wings. Tilted landing gear and a huge
+                        rear hatch allow for cargo drops.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+
+        <h2 class="section-title">Other Aircraft</h2>
+
+        <div class="aircraft-list">
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="Arrowhead.png" alt="Arrowhead aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>Arrowhead</h3>
+                    <p>
+                        The fastest commercial airliner ever built by
+                        Tuna Inc. With a reported speed of 4,526 SPS,
+                        equivalent to Mach 3.6946938776 in real-speed
+                        terms, it carries 120 passengers, 10 crew members
+                        and 2 pilots.
+                    </p>
+                </div>
+            </article>
+
+            <article class="aircraft">
+                <div class="aircraft-image">
+                    <img src="aethervail.png" alt="Aetherveil aircraft">
+                </div>
+                <div class="aircraft-details">
+                    <h3>Aetherveil</h3>
+                    <p>
+                        Originally intended to serve as the second Tuna
+                        Inc. AOC, before being replaced by AB-1200
+                        HAZARDOUS. A Tuna Security variant features a
+                        detachable hump providing extra space or a
+                        control centre. A version without the hump is
+                        also available for commercial service.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer>
+        Tuna Inc. Image Centre
+    </footer>
+
+</body>
+</html>
