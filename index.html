@@ -1,79 +1,123 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tuna Inc. — Official Image Archive</title>
-
-    <meta name="description" content="Official Tuna Inc. image archive featuring Tuna Inc. logos, departments, projects, facilities and more.">
+    <title>Tuna Inc. — Image Centre</title>
+    <meta name="description" content="The official Tuna Inc. Image Centre.">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #0b0b0d;
-            color: white;
+            color: #eee;
         }
 
         header {
-            padding: 50px 20px;
-            text-align: center;
-            background: #111116;
+            height: 230px;
+            background:
+                linear-gradient(to bottom, #0003, #0b0b0d),
+                url("banner0.png") center 45% / cover no-repeat;
             border-bottom: 1px solid #29292f;
         }
 
-        h1 {
+        .header-inner {
+            max-width: 1100px;
+            margin: auto;
+            padding: 28px 25px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: #a16bc5;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 35px auto 70px;
+            padding: 0 25px;
+        }
+
+        .intro {
+            margin-bottom: 30px;
+        }
+
+        .intro h1 {
+            font-size: 30px;
+            font-weight: 500;
+            margin: 0 0 10px;
+        }
+
+        .intro p {
+            color: #99999f;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: 540px;
             margin: 0;
-            font-size: 42px;
-            letter-spacing: 2px;
         }
 
-        header p {
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        .gallery {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-
+        .pages {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, 180px);
+            gap: 16px;
         }
 
-        .card {
-            background: #15151a;
-            border: 1px solid #29292f;
-            border-radius: 14px;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
+        .page {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: flex-end;
+            padding: 18px;
+            background:
+                linear-gradient(to top, #000c, #0001),
+                url("sunsetdesert.png") center / cover no-repeat;
+            border: 1px solid #343438;
+            border-radius: 3px;
+            color: white;
+            text-decoration: none;
+            font-size: 19px;
+            transition: border-color 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .page:hover {
             border-color: #8d35c7;
         }
 
-        .card img {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: #ffffff;
-            display: block;
-        }
-
-        .card h2 {
-            font-size: 18px;
-            margin: 18px;
-        }
-
         footer {
-            text-align: center;
-            padding: 40px;
-            color: #777;
+            padding: 22px 25px;
+            border-top: 1px solid #29292f;
+            color: #66666b;
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        @media (max-width: 450px) {
+            header {
+                height: 180px;
+            }
+
+            .pages {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .intro h1 {
+                font-size: 26px;
+            }
         }
     </style>
 </head>
@@ -81,53 +125,31 @@
 <body>
 
 <header>
-    <h1>TUNA INC.</h1>
-    <p>Official Tuna Inc. Image Archive</p>
+    <div class="header-inner">
+        <div class="brand">TUNA INC<span>.</span></div>
+    </div>
 </header>
 
-<main class="gallery">
+<main>
+    <section class="intro">
+        <h1>Image Centre</h1>
+        <p>
+            The official collection of Tuna Inc. logos, departments,
+            projects and facilities.
+        </p>
+    </section>
 
-    <div class="card">
-        <img src="Tuna%20Inc%20Logo.png"
-             alt="Tuna Inc. Logo">
-        <h2>Tuna Inc. Logo</h2>
-    </div>
-
-    <div class="card">
-        <img src="Tuna%20Air%20Logo.png"
-             alt="Tuna Air Logo">
-        <h2>Tuna Air Logo</h2>
-    </div>
-
-    <div class="card">
-        <img src="Tuna%20Security%20Logo.png"
-             alt="Tuna Security Logo">
-        <h2>Tuna Security Logo</h2>
-    </div>
-
-    <div class="card">
-        <img src="Tuna%20Hazards%20Logo.png"
-             alt="Tuna Hazards Logo">
-        <h2>Tuna Hazards Logo</h2>
-    </div>
-
-    <div class="card">
-        <img src="Tuna%20Inc.%20Cafe%20Logo.png"
-             alt="Tuna Inc. Cafe Logo">
-        <h2>Tuna Inc. Cafe Logo</h2>
-    </div>
-
-    <div class="card">
-        <img src="T.M.A%20Logo.png"
-             alt="Tuna Military Authority Logo">
-        <h2>T.M.A. Logo</h2>
-    </div>
-
+    <section class="pages">
+        <a class="page" href="logos.html">Logos</a>
+    </section>
 </main>
 
 <footer>
-    © Tuna Inc. — Official Archive
+    <div class="footer-inner">
+        © Tuna Inc.
+    </div>
 </footer>
 
 </body>
 </html>
+```
