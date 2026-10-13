@@ -1,1 +1,320 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Branches — Tuna Inc. Image Centre</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #111;
+            background-image:
+                linear-gradient(
+                    rgba(10, 10, 10, 0.68),
+                    rgba(10, 10, 10, 0.82)
+                ),
+                url("sunsetdesertwithlogo.PNG");
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #eee;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 24px 6%;
+            background: rgba(15, 15, 15, 0.94);
+            border-bottom: 1px solid #303030;
+        }
+
+        header a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        header a:hover {
+            color: #fff;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 70px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+
+        .intro {
+            margin: 0 0 35px;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .branch-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .branch {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 24px;
+            background: rgba(20, 20, 20, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            transition: border-color 0.2s;
+        }
+
+        .branch:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background: #242424;
+            border: 1px solid #383838;
+        }
+
+        .logo img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .details p {
+            margin: 0;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            background: rgba(15, 15, 15, 0.94);
+            border-top: 1px solid #303030;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                background-attachment: scroll;
+            }
+
+            main {
+                padding: 30px 14px 45px;
+            }
+
+            .branch {
+                align-items: flex-start;
+                gap: 14px;
+                padding: 16px;
+            }
+
+            .logo {
+                width: 72px;
+                height: 72px;
+                padding: 7px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            h2 {
+                font-size: 17px;
+            }
+
+            .details p {
+                font-size: 13px;
+                line-height: 1.65;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .branch {
+                flex-direction: column;
+            }
+
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html">Home</a>
+    </header>
+
+    <main>
+        <h1>Our Branches</h1>
+        <p class="intro">
+            The organisations that make up Tuna Inc.
+        </p>
+
+        <div class="branch-list">
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="Tuna Inc Logo.png" alt="Tuna Inc. logo">
+                </div>
+                <div class="details">
+                    <h2>Tuna Inc.</h2>
+                    <p>
+                        The main Tuna Inc. group, overseeing all branches.
+                        It specialises in power generation, research and
+                        technology, and owns facilities including Glaceria
+                        Research Base and Tuna Inc. Hydroelectric Dam.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="Tuna Air Logo.png" alt="Tunair logo">
+                </div>
+                <div class="details">
+                    <h2>Tunair</h2>
+                    <p>
+                        The airline of Tuna Inc. and its second-largest
+                        branch. One of the most popular branches in Plane
+                        Crazy, it operates an extensive fleet of airliners
+                        and smaller aircraft for roleplay flights and training.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="Tuna Inc. Cafe Logo.png"
+                         alt="Tuna Inc. Baristas Association logo">
+                </div>
+                <div class="details">
+                    <h2>Tuna Inc. Baristas Association</h2>
+                    <p>
+                        The owner of the Tuna Inc. Cafe franchise, with
+                        several shops around the complex. Its most infamous
+                        location sits in the middle of the lake near the old
+                        security training facility, at point C2 on the
+                        complex map.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="TUNA Logo.png" alt="T.U.N.A. logo">
+                </div>
+                <div class="details">
+                    <h2>T.U.N.A.</h2>
+                    <p>
+                        The Tuna Universal Navigation Agency is Tuna Inc.'s
+                        primary spaceflight organisation. Its projects
+                        include asteroid mining, space tourism supported by
+                        Tunair spaceplanes, orbital lasers, artificial light
+                        mirrors and other space-based developments.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="T.M.A Logo.png" alt="T.M.A. logo">
+                </div>
+                <div class="details">
+                    <h2>T.M.A.</h2>
+                    <p>
+                        The Tuna Meteorological Agency conducts atmospheric
+                        research and helps protect against natural disasters
+                        by collecting data on weather systems. Aircraft and
+                        heavy interceptors are common sights in its fleet.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="Tuna Hazards Logo.png" alt="Tuna Hazards logo">
+                </div>
+                <div class="details">
+                    <h2>Tuna Hazards</h2>
+                    <p>
+                        An elite team of specialists dealing with chemicals,
+                        radiation and other harmful substances. It is the
+                        first branch to respond to spills, fires and other
+                        hazardous incidents.
+                    </p>
+                </div>
+            </section>
+
+            <section class="branch">
+                <div class="logo">
+                    <img src="Tuna Security Logo.png" alt="Tuna Security logo">
+                </div>
+                <div class="details">
+                    <h2>Tuna Security</h2>
+                    <p>
+                        The largest branch of Tuna Inc. It operates TSHQ,
+                        TSTF1, TSTF2, TSTF3 and TSTF4. Its fleet numbers
+                        hundreds of aircraft and vehicles, including
+                        fighters, cargo aircraft, tanks, presidential
+                        aircraft, display aircraft, experimental designs
+                        and reconnaissance units.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        Tuna Inc. Image Centre
+    </footer>
+
+</body>
+</html>
+
