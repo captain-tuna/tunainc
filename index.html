@@ -1,133 +1,827 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="description" content="The official Tuna Inc. company archive. Explore our branches, ranks, games, events and history.">
+<title>Tuna Inc. — Official Archive</title>
 
-    <title>Tuna Inc. — Official Image Archive</title>
+<style>
+:root {
+    --bg: #0b0b0d;
+    --panel: #121216;
+    --panel-hover: #19191f;
+    --border: #2b2b32;
+    --text: #eeeeF1;
+    --muted: #92929e;
+    --purple: #9a4bd0;
+    --width: 1120px;
+}
 
-    <meta name="description" content="Official Tuna Inc. image archive featuring Tuna Inc. logos, departments, projects, facilities and more.">
+* { box-sizing: border-box; }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b0b0d;
-            color: white;
-        }
+html { scroll-behavior: smooth; }
 
-        header {
-            padding: 50px 20px;
-            text-align: center;
-            background: #111116;
-            border-bottom: 1px solid #29292f;
-        }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
 
-        h1 {
-            margin: 0;
-            font-size: 42px;
-            letter-spacing: 2px;
-        }
+a { color: inherit; text-decoration: none; }
 
-        header p {
-            color: #aaa;
-            font-size: 18px;
-        }
+button { font: inherit; }
 
-        .gallery {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+.site-header {
+    border-bottom: 1px solid var(--border);
+    background: #0e0e11;
+}
 
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
+.header-inner {
+    max-width: var(--width);
+    min-height: 76px;
+    margin: auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
 
-        .card {
-            background: #15151a;
-            border: 1px solid #29292f;
-            border-radius: 14px;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-        }
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #8d35c7;
-        }
+.brand-mark {
+    width: 37px;
+    height: 37px;
+    border: 1px solid #74409a;
+    display: grid;
+    place-items: center;
+    color: #d5a8f2;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -1px;
+}
 
-        .card img {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: #ffffff;
-            display: block;
-        }
+.brand-name {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
 
-        .card h2 {
-            font-size: 18px;
-            margin: 18px;
-        }
+.brand-subtitle {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1.2px;
+}
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #777;
-        }
-    </style>
+nav {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 9px 11px;
+    color: #aaaab4;
+    font-size: 12px;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: white;
+    border-bottom-color: var(--purple);
+}
+
+main {
+    max-width: var(--width);
+    min-height: 70vh;
+    margin: auto;
+    padding: 0 24px;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+.hero {
+    padding: 86px 0 64px;
+    border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+    color: #c18be3;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    max-width: 700px;
+    margin: 18px 0;
+    font-size: clamp(36px, 5.5vw, 62px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+}
+
+.hero p {
+    max-width: 550px;
+    color: #a5a5af;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 11px 16px;
+    border: 1px solid #74409a;
+    background: #261632;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.button:hover { background: #392048; }
+
+.section {
+    padding: 43px 0;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 23px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 23px;
+    letter-spacing: -0.5px;
+}
+
+.section-heading p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.small-link {
+    color: #c18be3;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--border);
+}
+
+.stat {
+    padding: 21px;
+    border-right: 1px solid var(--border);
+}
+
+.stat:last-child { border-right: 0; }
+
+.stat strong {
+    display: block;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.branch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.branch-card {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+
+.branch-card:hover {
+    border-color: #75429a;
+    background: var(--panel-hover);
+}
+
+.logo-wrap {
+    height: 190px;
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    background: #f7f7f7;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.branch-card-info { padding: 16px; }
+
+.branch-card-info h3 {
+    margin: 0 0 5px;
+    font-size: 15px;
+}
+
+.branch-card-info p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 17px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    color: #c18be3;
+    font-size: 11px;
+}
+
+.page-heading {
+    padding: 49px 0 30px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-heading h1 {
+    margin: 8px 0;
+    font-size: 36px;
+    letter-spacing: -1px;
+}
+
+.page-heading p {
+    max-width: 600px;
+    margin: 0;
+    color: var(--muted);
+}
+
+.detail-top {
+    padding: 30px 0 20px;
+}
+
+.back-link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #c18be3;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+    padding: 20px 0 65px;
+}
+
+.detail-logo {
+    min-height: 300px;
+    padding: 35px;
+    display: grid;
+    place-items: center;
+    background: #f7f7f7;
+    border: 1px solid var(--border);
+}
+
+.detail-logo img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+}
+
+.detail-content h1 {
+    margin: 12px 0;
+    font-size: 36px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+.detail-content > p {
+    color: #b0b0ba;
+    line-height: 1.9;
+}
+
+.detail-label {
+    margin-top: 28px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.placeholder {
+    max-width: 650px;
+    padding: 38px 0 80px;
+}
+
+.placeholder h2 { font-size: 22px; }
+
+.placeholder p { color: var(--muted); }
+
+footer {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+    max-width: var(--width);
+    margin: auto;
+    padding: 26px 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #777781;
+    font-size: 11px;
+}
+
+@media (max-width: 760px) {
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 16px;
+        padding-bottom: 0;
+    }
+
+    nav {
+        width: 100%;
+        gap: 0;
+        overflow-x: auto;
+    }
+
+    .nav-link {
+        padding: 10px 9px;
+        white-space: nowrap;
+    }
+
+    main { padding: 0 18px; }
+
+    .hero { padding: 60px 0 44px; }
+
+    .branch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .logo-wrap { height: 150px; }
+
+    .detail-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .detail-logo { min-height: 230px; }
+
+    .footer-inner { padding: 22px 18px; }
+}
+
+@media (max-width: 420px) {
+    .branch-grid { grid-template-columns: 1fr; }
+    .logo-wrap { height: 200px; }
+    .stats .stat { padding: 14px 10px; }
+    .stat strong { font-size: 20px; }
+    .hero h1 { letter-spacing: -1px; }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>TUNA INC.</h1>
-    <p>Official Tuna Inc. Image Archive</p>
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="#home" aria-label="Tuna Inc. home">
+            <span class="brand-mark">TI.</span>
+            <span>
+                <span class="brand-name">TUNA INC.</span>
+                <span class="brand-subtitle">OFFICIAL COMPANY ARCHIVE</span>
+            </span>
+        </a>
+
+        <nav aria-label="Main navigation">
+            <a class="nav-link active" href="#home" data-page="home">Home</a>
+            <a class="nav-link" href="#branches" data-page="branches">Branches</a>
+            <a class="nav-link" href="#ranks" data-page="ranks">Ranks</a>
+            <a class="nav-link" href="#games" data-page="games">Games</a>
+            <a class="nav-link" href="#events" data-page="events">Events</a>
+            <a class="nav-link" href="#lore" data-page="lore">Lore</a>
+        </nav>
+    </div>
 </header>
 
-<main class="gallery">
+<main>
 
-    <div class="card">
-        <img src="Tuna%20Inc%20Logo.png"
-             alt="Tuna Inc. Logo">
-        <h2>Tuna Inc. Logo</h2>
-    </div>
+    <!-- HOME -->
+    <section class="page active" id="home">
+        <div class="hero">
+            <div class="eyebrow">The official archive</div>
+            <h1>One company.<br>Many operations.</h1>
+            <p>
+                Welcome to Tuna Inc. Explore the branches, projects,
+                people and history that make up the organisation.
+                This archive brings everything together in one place.
+            </p>
+            <a class="button" href="#branches">Explore our branches &nbsp; ↗</a>
+        </div>
 
-    <div class="card">
-        <img src="Tuna%20Air%20Logo.png"
-             alt="Tuna Air Logo">
-        <h2>Tuna Air Logo</h2>
-    </div>
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <h2>The organisation</h2>
+                    <p>A closer look at Tuna Inc. and its operations.</p>
+                </div>
+            </div>
 
-    <div class="card">
-        <img src="Tuna%20Security%20Logo.png"
-             alt="Tuna Security Logo">
-        <h2>Tuna Security Logo</h2>
-    </div>
+            <div class="stats">
+                <div class="stat">
+                    <strong>06</strong>
+                    <span>Listed branches</span>
+                </div>
+                <div class="stat">
+                    <strong>01</strong>
+                    <span>Organisation</span>
+                </div>
+                <div class="stat">
+                    <strong>∞</strong>
+                    <span>Room to grow</span>
+                </div>
+            </div>
+        </section>
 
-    <div class="card">
-        <img src="Tuna%20Hazards%20Logo.png"
-             alt="Tuna Hazards Logo">
-        <h2>Tuna Hazards Logo</h2>
-    </div>
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <h2>Our branches</h2>
+                    <p>Explore the different parts of the organisation.</p>
+                </div>
+                <a class="small-link" href="#branches">View all branches →</a>
+            </div>
 
-    <div class="card">
-        <img src="Tuna%20Inc.%20Cafe%20Logo.png"
-             alt="Tuna Inc. Cafe Logo">
-        <h2>Tuna Inc. Cafe Logo</h2>
-    </div>
+            <div class="branch-grid" id="home-branches"></div>
+        </section>
+    </section>
 
-    <div class="card">
-        <img src="T.M.A%20Logo.png"
-             alt="Tuna Military Authority Logo">
-        <h2>T.M.A. Logo</h2>
-    </div>
+    <!-- BRANCHES -->
+    <section class="page" id="branches">
+        <div class="page-heading">
+            <div class="eyebrow">Company directory / 01</div>
+            <h1>Our branches</h1>
+            <p>
+                The departments, divisions and associated operations
+                that make up Tuna Inc. Select a branch to view its profile.
+            </p>
+        </div>
+
+        <section class="section">
+            <div class="branch-grid" id="all-branches"></div>
+        </section>
+    </section>
+
+    <!-- BRANCH PROFILE -->
+    <section class="page" id="branch-detail">
+        <div class="detail-top">
+            <button class="back-link" id="back-to-branches">
+                ← Back to branches
+            </button>
+        </div>
+
+        <div class="detail-layout">
+            <div class="detail-logo">
+                <img id="detail-image" src="" alt="">
+            </div>
+
+            <div class="detail-content">
+                <div class="eyebrow" id="detail-category">Branch profile</div>
+                <h1 id="detail-title"></h1>
+                <p id="detail-description"></p>
+
+                <div class="detail-label">Department overview</div>
+                <div class="detail-value" id="detail-overview"></div>
+
+                <div class="detail-label">Classification</div>
+                <div class="detail-value" id="detail-type"></div>
+
+                <div class="detail-label">Official designation</div>
+                <div class="detail-value" id="detail-designation"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RANKS -->
+    <section class="page" id="ranks">
+        <div class="page-heading">
+            <div class="eyebrow">Company directory / 02</div>
+            <h1>Ranks</h1>
+            <p>Organisational structure and rank classifications.</p>
+        </div>
+        <div class="placeholder">
+            <h2>Rank directory</h2>
+            <p>
+                The rank structure will be documented here, including
+                rank names, responsibilities and the organisational
+                hierarchy.
+            </p>
+        </div>
+    </section>
+
+    <!-- GAMES -->
+    <section class="page" id="games">
+        <div class="page-heading">
+            <div class="eyebrow">Projects / 03</div>
+            <h1>Games</h1>
+            <p>Games, experiences and interactive projects associated with Tuna Inc.</p>
+        </div>
+        <div class="placeholder">
+            <h2>Project directory</h2>
+            <p>Game profiles, project information and links will be added here.</p>
+        </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="page" id="events">
+        <div class="page-heading">
+            <div class="eyebrow">Company calendar / 04</div>
+            <h1>Events</h1>
+            <p>Company events, community activities and recorded operations.</p>
+        </div>
+        <div class="placeholder">
+            <h2>Event archive</h2>
+            <p>Upcoming events and records of previous activities will appear here.</p>
+        </div>
+    </section>
+
+    <!-- LORE -->
+    <section class="page" id="lore">
+        <div class="page-heading">
+            <div class="eyebrow">Records & history / 05</div>
+            <h1>Lore</h1>
+            <p>The history, timeline and wider universe of Tuna Inc.</p>
+        </div>
+        <div class="placeholder">
+            <h2>Company records</h2>
+            <p>
+                The company timeline, important milestones and fictional
+                universe can be documented here.
+            </p>
+        </div>
+    </section>
 
 </main>
 
 <footer>
-    © Tuna Inc. — Official Archive
+    <div class="footer-inner">
+        <span>© Tuna Inc. — Official Archive</span>
+        <span>Company directory &amp; records</span>
+    </div>
 </footer>
+
+<script>
+const branches = [
+    {
+        id: "tuna-inc",
+        name: "Tuna Inc.",
+        image: "Tuna%20Inc%20Logo.png",
+        category: "Parent organisation",
+        type: "Corporate",
+        designation: "Tuna Inc.",
+        description:
+            "Tuna Inc. is the parent organisation bringing together its branches, projects and wider operations under one identity.",
+        overview:
+            "The central organisation responsible for the overall direction and coordination of Tuna Inc.",
+        short: "The parent organisation."
+    },
+    {
+        id: "tuna-air",
+        name: "Tuna Air",
+        image: "Tuna%20Air%20Logo.png",
+        category: "Aviation",
+        type: "Aviation division",
+        designation: "Tuna Air",
+        description:
+            "Tuna Air is the aviation branch of Tuna Inc., representing the organisation's airline and flight-related operations.",
+        overview:
+            "Aviation, aircraft and airline-related projects.",
+        short: "Aviation and airline operations."
+    },
+    {
+        id: "tuna-security",
+        name: "Tuna Security",
+        image: "Tuna%20Security%20Logo.png",
+        category: "Security",
+        type: "Security division",
+        designation: "Tuna Security",
+        description:
+            "Tuna Security is responsible for security-related operations within the Tuna Inc. organisation.",
+        overview:
+            "Security operations, personnel and associated facilities.",
+        short: "Security and protection."
+    },
+    {
+        id: "tuna-hazards",
+        name: "Tuna Hazards",
+        image: "Tuna%20Hazards%20Logo.png",
+        category: "Hazards",
+        type: "Specialist division",
+        designation: "Tuna Hazards",
+        description:
+            "Tuna Hazards is a dedicated branch within the Tuna Inc. organisation. Its specific remit and operations can be documented as the archive develops.",
+        overview:
+            "Hazard-related projects and specialist operations.",
+        short: "Hazards and specialist operations."
+    },
+    {
+        id: "tuna-cafe",
+        name: "Tuna Inc. Cafe",
+        image: "Tuna%20Inc.%20Cafe%20Logo.png",
+        category: "Hospitality",
+        type: "Hospitality division",
+        designation: "Tuna Inc. Cafe",
+        description:
+            "Tuna Inc. Cafe is the organisation's cafe-branded branch, giving the wider Tuna Inc. identity a presence in hospitality.",
+        overview:
+            "Cafe branding and hospitality-related projects.",
+        short: "Cafe and hospitality."
+    },
+    {
+        id: "tma",
+        name: "T.M.A.",
+        image: "T.M.A%20Logo.png",
+        category: "Military authority",
+        type: "Authority",
+        designation: "Tuna Military Authority",
+        description:
+            "T.M.A., short for Tuna Military Authority, is a distinct organisation within the Tuna Inc. archive.",
+        overview:
+            "Military-themed organisation, activities and associated projects.",
+        short: "The Tuna Military Authority."
+    }
+];
+
+function makeCard(branch) {
+    const card = document.createElement("button");
+    card.className = "branch-card";
+    card.type = "button";
+    card.setAttribute("aria-label", "View " + branch.name);
+
+    card.innerHTML = `
+        <div class="logo-wrap">
+            <img src="${branch.image}" alt="${branch.name} logo"
+                 loading="lazy">
+        </div>
+        <div class="branch-card-info">
+            <h3>${branch.name}</h3>
+            <p>${branch.short}</p>
+            <div class="card-bottom">
+                <span>${branch.category}</span>
+                <span>View profile ↗</span>
+            </div>
+        </div>
+    `;
+
+    card.addEventListener("click", () => openBranch(branch.id));
+    return card;
+}
+
+branches.forEach(branch => {
+    document.getElementById("all-branches").appendChild(makeCard(branch));
+});
+
+branches.forEach(branch => {
+    document.getElementById("home-branches").appendChild(makeCard(branch));
+});
+
+function showPage(pageId) {
+    const validPages = [
+        "home", "branches", "branch-detail",
+        "ranks", "games", "events", "lore"
+    ];
+
+    if (!validPages.includes(pageId)) pageId = "home";
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+    });
+
+    document.querySelectorAll(".nav-link").forEach(link => {
+        const activePage = pageId === "branch-detail" ? "branches" : pageId;
+        const active = link.dataset.page === activePage;
+        link.classList.toggle("active", active);
+
+        if (active) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+
+    window.scrollTo(0, 0);
+}
+
+function openBranch(id) {
+    const branch = branches.find(item => item.id === id);
+    if (!branch) return;
+
+    document.getElementById("detail-image").src = branch.image;
+    document.getElementById("detail-image").alt = branch.name + " logo";
+    document.getElementById("detail-title").textContent = branch.name;
+    document.getElementById("detail-category").textContent = branch.category;
+    document.getElementById("detail-description").textContent = branch.description;
+    document.getElementById("detail-overview").textContent = branch.overview;
+    document.getElementById("detail-type").textContent = branch.type;
+    document.getElementById("detail-designation").textContent = branch.designation;
+
+    window.location.hash = "branch/" + id;
+    showPage("branch-detail");
+}
+
+function routeFromHash() {
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+
+    if (hash.startsWith("branch/")) {
+        const id = hash.slice("branch/".length);
+        const branch = branches.find(item => item.id === id);
+
+        if (branch) {
+            document.getElementById("detail-image").src = branch.image;
+            document.getElementById("detail-image").alt = branch.name + " logo";
+            document.getElementById("detail-title").textContent = branch.name;
+            document.getElementById("detail-category").textContent = branch.category;
+            document.getElementById("detail-description").textContent = branch.description;
+            document.getElementById("detail-overview").textContent = branch.overview;
+            document.getElementById("detail-type").textContent = branch.type;
+            document.getElementById("detail-designation").textContent = branch.designation;
+            showPage("branch-detail");
+            return;
+        }
+    }
+
+    const pageId = hash.replace("#", "");
+    showPage(pageId || "home");
+}
+
+document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", event => {
+        event.preventDefault();
+        const page = link.dataset.page;
+        if (window.location.hash !== "#" + page) {
+            window.location.hash = page;
+        } else {
+            showPage(page);
+        }
+    });
+});
+
+document.getElementById("back-to-branches").addEventListener("click", () => {
+    window.location.hash = "branches";
+    showPage("branches");
+});
+
+window.addEventListener("hashchange", routeFromHash);
+routeFromHash();
+</script>
 
 </body>
 </html>
