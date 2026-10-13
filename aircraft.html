@@ -6,10 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Aircraft — Tuna Inc.</title>
-<link rel="icon" type="image/x-icon" href="logos%20(6).ico">
+    <link rel="icon" type="image/x-icon" href="logos%20(6).ico">
+
     <style>
         * {
             box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #a855f7;
+            --background: rgba(17, 17, 17, 0.95);
+            --border: rgba(255, 255, 255, 0.13);
+            --muted: #aaa;
         }
 
         body {
@@ -30,143 +38,413 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        a {
+            color: inherit;
+        }
+
         header {
-            padding: 24px 6%;
-            background: rgba(15, 15, 15, 0.95);
-            border-bottom: 1px solid #303030;
+            background: rgba(12, 12, 12, 0.96);
+            border-bottom: 1px solid var(--border);
+            padding: 19px 5%;
         }
 
-        header a {
-            color: #aaa;
+        .nav {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 17px;
+            font-weight: bold;
+            letter-spacing: 1px;
             text-decoration: none;
-            font-size: 14px;
         }
 
-        header a:hover {
-            color: #fff;
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: #bbb;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: white;
         }
 
         main {
-            max-width: 1050px;
-            margin: 0 auto;
+            width: min(1200px, 100%);
+            margin: auto;
             padding: 42px 24px 70px;
         }
 
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
         h1 {
-            margin: 0 0 10px;
-            font-size: 34px;
+            margin: 0 0 12px;
+            font-size: clamp(30px, 5vw, 42px);
             font-weight: 500;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
         }
 
         .intro {
-            margin: 0 0 32px;
+            max-width: 650px;
+            margin: 0;
             color: #bbb;
             font-size: 14px;
-            line-height: 1.7;
+            line-height: 1.8;
+        }
+
+        .catalogue-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding: 20px;
+            background: rgba(15, 15, 15, 0.94);
+            border: 1px solid var(--border);
+        }
+
+        .search {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            background: #191919;
+            color: white;
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: var(--purple);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter {
+            padding: 9px 13px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            background: transparent;
+            color: #ccc;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter:hover {
+            border-color: #888;
+            color: white;
+        }
+
+        .filter.active {
+            border-color: var(--purple);
+            background: rgba(168, 85, 247, 0.14);
+            color: white;
+        }
+
+        .results {
+            color: var(--muted);
+            font-size: 12px;
         }
 
         .section-title {
-            margin: 42px 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            margin: 38px 0 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid #444;
             font-size: 21px;
             font-weight: 500;
         }
 
+        .section-title small {
+            color: #888;
+            font-size: 11px;
+            font-weight: normal;
+        }
+
         .aircraft-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 15px;
         }
 
         .aircraft {
             display: grid;
-            grid-template-columns: 260px minmax(0, 1fr);
-            align-items: center;
-            gap: 26px;
+            grid-template-columns: minmax(220px, 31%) minmax(0, 1fr);
+            gap: 25px;
+            align-items: start;
             padding: 20px;
-            background: rgba(20, 20, 20, 0.94);
-            border: 1px solid rgba(255, 255, 255, 0.13);
+            background: var(--background);
+            border: 1px solid var(--border);
             transition: border-color 0.2s;
         }
 
         .aircraft:hover {
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(168, 85, 247, 0.55);
         }
 
-        .aircraft-image {
-            width: 100%;
-            height: 155px;
+        .aircraft[hidden],
+        .aircraft-group[hidden] {
+            display: none;
+        }
+
+        .image-button {
+            position: relative;
             display: flex;
+            width: 100%;
+            height: 190px;
             align-items: center;
             justify-content: center;
+            padding: 12px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.035);
             border: 1px solid #303030;
-            padding: 10px;
+            background: rgba(255, 255, 255, 0.035);
+            cursor: zoom-in;
         }
 
-        .aircraft-image img {
+        .image-button img {
             display: block;
             width: 100%;
             height: 100%;
             object-fit: contain;
+            transition: transform 0.25s;
         }
 
-        .aircraft-details {
-            min-width: 0;
+        .image-button:hover img {
+            transform: scale(1.06);
+        }
+
+        .zoom-hint {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            padding: 5px 7px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #ddd;
+            font-size: 10px;
+            pointer-events: none;
+        }
+
+        .aircraft-heading {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .aircraft h3 {
-            margin: 0 0 12px;
-            color: #fff;
-            font-size: 21px;
+            margin: 0;
+            font-size: 22px;
             font-weight: 500;
         }
 
-        .aircraft p {
+        .tag {
+            display: inline-block;
+            padding: 5px 8px;
+            border: 1px solid #48404f;
+            border-radius: 2px;
+            color: #d7b8ff;
+            font-size: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .description {
             margin: 0;
-            color: #c0c0c0;
+            color: #c1c1c1;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .description p {
+            margin: 0 0 10px;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .description strong {
+            color: #eee;
+        }
+
+        details {
+            margin-top: 18px;
+            border-top: 1px solid #383838;
+        }
+
+        summary {
+            padding: 14px 0 5px;
+            color: #ddd;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        summary:hover {
+            color: #d7b8ff;
+        }
+
+        .spec-table-wrap {
+            margin-top: 12px;
+            overflow-x: auto;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .spec-table th,
+        .spec-table td {
+            padding: 11px 12px;
+            border: 1px solid #353535;
+        }
+
+        .spec-table th {
+            width: 38%;
+            background: rgba(255, 255, 255, 0.035);
+            color: #aaa;
+            font-weight: normal;
+        }
+
+        .spec-table td {
+            color: #eee;
+        }
+
+        .no-results {
+            display: none;
+            padding: 35px 20px;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: #bbb;
+            text-align: center;
             font-size: 14px;
-            line-height: 1.75;
-            white-space: normal;
+        }
+
+        .no-results.show {
+            display: block;
         }
 
         footer {
-            padding: 22px;
-            text-align: center;
-            color: #999;
-            font-size: 12px;
-            background: rgba(15, 15, 15, 0.95);
+            padding: 24px;
             border-top: 1px solid #303030;
+            background: rgba(12, 12, 12, 0.96);
+            color: #888;
+            text-align: center;
+            font-size: 12px;
         }
 
-        @media (max-width: 700px) {
+        /* Image zoom window */
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.93);
+            cursor: zoom-out;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            display: block;
+            max-width: 95vw;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 18px;
+            left: 20px;
+            right: 20px;
+            color: #ccc;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 22px;
+            border: 0;
+            background: transparent;
+            color: white;
+            font-size: 34px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 720px) {
             body {
                 background-attachment: scroll;
             }
 
             main {
-                padding: 30px 14px 45px;
+                padding: 28px 14px 45px;
+            }
+
+            .nav {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 15px;
             }
 
             .aircraft {
                 grid-template-columns: 1fr;
                 gap: 17px;
-                padding: 15px;
+                padding: 14px;
             }
 
-            .aircraft-image {
-                height: 190px;
+            .image-button {
+                height: 210px;
             }
 
-            .aircraft h3 {
+            .catalogue-bar {
+                padding: 14px;
+            }
+
+            .section-title {
                 font-size: 19px;
             }
+        }
 
-            h1 {
-                font-size: 29px;
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
             }
         }
     </style>
@@ -174,299 +452,703 @@
 
 <body>
 
-    <header>
-        <a href="index.html">Home</a>
-    </header>
+<header>
+    <nav class="nav">
+        <a class="brand" href="index.html">TUNA INC.</a>
 
-    <main>
-        <h1>Aircraft</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="logos.html">Logos</a>
+            <a href="branches.html">Branches</a>
+            <a href="ranks.html">Ranks</a>
+            <a href="aircraft.html">Aircraft</a>
+        </div>
+    </nav>
+</header>
 
+<main>
+    <div class="page-heading">
+        <h1>Aircraft Catalogue</h1>
         <p class="intro">
-            The aircraft developed and operated by Tuna Inc. and its branches.
+            Aircraft developed and operated by Tuna Inc. and its branches.
+            Browse the fleet, search for a model or open an aircraft's
+            specifications for more information.
         </p>
+    </div>
 
-        <h2 class="section-title">AB Series</h2>
+    <section class="catalogue-bar" aria-label="Aircraft search and filters">
+        <input
+            class="search"
+            id="aircraftSearch"
+            type="search"
+            placeholder="Search aircraft by name or description..."
+            aria-label="Search aircraft"
+        >
+
+        <div class="filters">
+            <button class="filter active" data-filter="all">All aircraft</button>
+            <button class="filter" data-filter="ab">AB Series</button>
+            <button class="filter" data-filter="commercial">Commercial</button>
+            <button class="filter" data-filter="cargo">Cargo</button>
+            <button class="filter" data-filter="security">Security & Special</button>
+            <button class="filter" data-filter="executive">Executive</button>
+        </div>
+
+        <div class="results" id="resultsCount" aria-live="polite">
+            Showing 16 aircraft
+        </div>
+    </section>
+
+    <section class="aircraft-group" data-group="ab">
+        <h2 class="section-title">
+            AB Series
+            <small>AB-100 to AB-1600</small>
+        </h2>
 
         <div class="aircraft-list">
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-100">
+                <button class="image-button" type="button" aria-label="Zoom AB-100 image">
                     <img src="ab100-removebg-preview (1).png" alt="AB-100 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-100</h3>
-                    <p>
-                        A short-range regional airliner with two rear-mounted
-                        engines. It carries 9 passengers, 2 pilots and 1 crew
-                        member, with a maximum speed of 700 SPS.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-100</h3>
+                        <span class="tag">Regional</span>
+                    </div>
+                    <div class="description">
+                        <p>A short-range regional airliner with two rear-mounted engines. It carries 9 passengers, 2 pilots and 1 crew member, with a maximum speed of 700 SPS.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Regional airliner</td></tr>
+                                    <tr><th>Passengers</th><td>9</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>1</td></tr>
+                                    <tr><th>Engines</th><td>2, rear-mounted</td></tr>
+                                    <tr><th>Maximum speed</th><td>700 SPS</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-200">
+                <button class="image-button" type="button" aria-label="Zoom AB-200 image">
                     <img src="ab200-removebg-preview (1).png" alt="AB-200 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-200</h3>
-                    <p>
-                        An extended version of the AB-100. It uses the same
-                        basic airframe, lengthened by three blocks, with
-                        two additional passenger seats.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-200</h3>
+                        <span class="tag">Regional</span>
+                    </div>
+                    <div class="description">
+                        <p>An extended version of the AB-100. It uses the same basic airframe, lengthened by three blocks, with two additional passenger seats.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Regional airliner</td></tr>
+                                    <tr><th>Passengers</th><td>11</td></tr>
+                                    <tr><th>Airframe</th><td>AB-100, lengthened by 3 blocks</td></tr>
+                                    <tr><th>Other specifications</th><td>Not specified</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-400">
+                <button class="image-button" type="button" aria-label="Zoom AB-400 image">
                     <img src="ab400-removebg-preview (1).png" alt="AB-400 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-400</h3>
-                    <p>
-                        An extended AB-200 with a further five blocks of
-                        length. It accommodates 14 passengers, 2 pilots
-                        and 1 crew member, with a maximum speed of 790 SPS.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-400</h3>
+                        <span class="tag">Regional</span>
+                    </div>
+                    <div class="description">
+                        <p>An extended AB-200 with a further five blocks of length. It accommodates 14 passengers, 2 pilots and 1 crew member, with a maximum speed of 790 SPS.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Regional airliner</td></tr>
+                                    <tr><th>Passengers</th><td>14</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>1</td></tr>
+                                    <tr><th>Airframe</th><td>AB-200, lengthened by 5 additional blocks</td></tr>
+                                    <tr><th>Maximum speed</th><td>790 SPS</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-500">
+                <button class="image-button" type="button" aria-label="Zoom AB-500 image">
                     <img src="ab500-removebg-preview (1).png" alt="AB-500 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-500</h3>
-                    <p>
-                        A full-plot-length development of the AB-100,
-                        carrying 20 passengers, 3 crew members and 2 pilots.
-                        In 2024, it became infamous after being hijacked
-                        by evilcat and crashing into the ocean.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-500</h3>
+                        <span class="tag">Passenger</span>
+                    </div>
+                    <div class="description">
+                        <p>A full-plot-length development of the AB-100, carrying 20 passengers, 3 crew members and 2 pilots. In 2024, it became infamous after being hijacked by evilcat and crashing into the ocean.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Passenger airliner</td></tr>
+                                    <tr><th>Passengers</th><td>20</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>3</td></tr>
+                                    <tr><th>Airframe</th><td>Full-plot-length AB-100 development</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-700">
+                <button class="image-button" type="button" aria-label="Zoom AB-700 image">
                     <img src="ab700-removebg-preview (1).png" alt="AB-700 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-700</h3>
-                    <p>
-                        The best-known AB-100 variant. This full-plot-length
-                        aircraft carries 25 passengers, 4 crew members and
-                        2 pilots. Its numerical livery changes colour
-                        whenever Tuna Inc. reaches a new membership milestone.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-700</h3>
+                        <span class="tag">Passenger</span>
+                    </div>
+                    <div class="description">
+                        <p>The best-known AB-100 variant. This full-plot-length aircraft carries 25 passengers, 4 crew members and 2 pilots. Its numerical livery changes colour whenever Tuna Inc. reaches a new membership milestone.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Passenger airliner</td></tr>
+                                    <tr><th>Passengers</th><td>25</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>4</td></tr>
+                                    <tr><th>Airframe</th><td>Full-plot-length AB-100 variant</td></tr>
+                                    <tr><th>Livery</th><td>Changes with membership milestones</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab cargo" data-name="AB-730">
+                <button class="image-button" type="button" aria-label="Zoom AB-730 image">
                     <img src="ab730-removebg-preview (1).png" alt="AB-730 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-730</h3>
-                    <p>
-                        A modified AB-700 equipped with a cargo hatch
-                        beneath the aircraft. It is used to support
-                        research missions and transport equipment.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-730</h3>
+                        <span class="tag">Cargo / Research</span>
+                    </div>
+                    <div class="description">
+                        <p>A modified AB-700 equipped with a cargo hatch beneath the aircraft. It is used to support research missions and transport equipment.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Modified AB-700</td></tr>
+                                    <tr><th>Primary role</th><td>Cargo and research support</td></tr>
+                                    <tr><th>Cargo access</th><td>Underside cargo hatch</td></tr>
+                                    <tr><th>Capacity and speed</th><td>Not specified</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-800">
+                <button class="image-button" type="button" aria-label="Zoom AB-800 image">
                     <img src="ab800-removebg-preview (1).png" alt="AB-800 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-800</h3>
-                    <p>
-                        The smallest aircraft produced for commercial
-                        flights, with room for 6 passengers, 1 crew member
-                        and 2 pilots. It featured in a Tunair video, and
-                        Rickje has flown on this aircraft.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-800</h3>
+                        <span class="tag">Compact</span>
+                    </div>
+                    <div class="description">
+                        <p>The smallest aircraft produced for commercial flights, with room for 6 passengers, 1 crew member and 2 pilots. It featured in a Tunair video, and Rickje has flown on this aircraft.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Compact commercial aircraft</td></tr>
+                                    <tr><th>Passengers</th><td>6</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>1</td></tr>
+                                    <tr><th>Size</th><td>Smallest aircraft produced for commercial flights</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-900">
+                <button class="image-button" type="button" aria-label="Zoom AB-900 image">
                     <img src="ab900-removebg-preview (1).png" alt="AB-900 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-900</h3>
-                    <p>
-                        The first four-engine aircraft and first widebody
-                        in the AB series. It carries 180 passengers, 6 crew
-                        members, 2 pilots and 1 flight engineer. Its
-                        unusual tendency to drift through the air has
-                        made it a regular subject of jokes.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-900</h3>
+                        <span class="tag">Widebody</span>
+                    </div>
+                    <div class="description">
+                        <p>The first four-engine aircraft and first widebody in the AB series. It carries 180 passengers, 6 crew members, 2 pilots and 1 flight engineer. Its unusual tendency to drift through the air has made it a regular subject of jokes.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Widebody airliner</td></tr>
+                                    <tr><th>Passengers</th><td>180</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>6</td></tr>
+                                    <tr><th>Flight engineer</th><td>1</td></tr>
+                                    <tr><th>Engines</th><td>4</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-1000">
+                <button class="image-button" type="button" aria-label="Zoom AB-1000 image">
                     <img src="ab1000-removebg-preview (1).png" alt="AB-1000 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1000</h3>
-                    <p>
-                        Inspired by the Airbus A380, the AB-1000 was the
-                        first double-decker in the AB series. It carries
-                        340 passengers, 10 crew members and 2 pilots,
-                        powered by four engines. Rickje has flown on it.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1000</h3>
+                        <span class="tag">Double-decker</span>
+                    </div>
+                    <div class="description">
+                        <p>Inspired by the Airbus A380, the AB-1000 was the first double-decker in the AB series. It carries 340 passengers, 10 crew members and 2 pilots, powered by four engines. Rickje has flown on it.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Double-decker airliner</td></tr>
+                                    <tr><th>Passengers</th><td>340</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>10</td></tr>
+                                    <tr><th>Engines</th><td>4</td></tr>
+                                    <tr><th>Inspiration</th><td>Airbus A380</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-1100">
+                <button class="image-button" type="button" aria-label="Zoom AB-1100 image">
                     <img src="ab1100.png" alt="AB-1100 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1100</h3>
-                    <p>
-                        A more modern AB aircraft featuring two rear-mounted
-                        engines, built-in airstairs and ground-service
-                        capabilities. It accommodates 10 passengers,
-                        1 crew member and 2 pilots.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1100</h3>
+                        <span class="tag">Modern</span>
+                    </div>
+                    <div class="description">
+                        <p>A more modern AB aircraft featuring two rear-mounted engines, built-in airstairs and ground-service capabilities. It accommodates 10 passengers, 1 crew member and 2 pilots.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Commercial aircraft</td></tr>
+                                    <tr><th>Passengers</th><td>10</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>1</td></tr>
+                                    <tr><th>Engines</th><td>2, rear-mounted</td></tr>
+                                    <tr><th>Features</th><td>Built-in airstairs and ground-service capabilities</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial cargo security executive" data-name="AB-1200">
+                <button class="image-button" type="button" aria-label="Zoom AB-1200 image">
                     <img src="AB-1200.png" alt="AB-1200 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1200</h3>
-                    <p>
-                        Tuna Inc.'s most famous aircraft, with four units
-                        built for different roles.
-                    </p>
-
-                    <p style="margin-top: 12px;">
-                        <strong>001 — HAZARDOUS:</strong> The Tuna Inc. AOC,
-                        transporting executives and personnel in dangerous
-                        situations.
-                    </p>
-
-                    <p style="margin-top: 8px;">
-                        <strong>002 — SECRECY:</strong> A black-and-gold
-                        Tuna Security reconnaissance aircraft equipped
-                        with a rooftop AWACS system for night operations.
-                    </p>
-
-                    <p style="margin-top: 8px;">
-                        <strong>003 — OVERWEIGHT:</strong> A cargo variant
-                        with two rear butterfly doors and built-in cargo
-                        lifts. In August 2026, it was converted into an
-                        experimental hyperfuel-reactor-powered aircraft.
-                    </p>
-
-                    <p style="margin-top: 8px;">
-                        <strong>004 — OPALITE:</strong> The commercial
-                        variant, seating 30 economy passengers and
-                        8 business-class passengers, with 5 crew members
-                        and 2 pilots. Rickje has flown on it.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1200</h3>
+                        <span class="tag">Multi-role</span>
+                    </div>
+                    <div class="description">
+                        <p>Tuna Inc.'s most famous aircraft, with four units built for different roles.</p>
+                        <p><strong>001 — HAZARDOUS:</strong> The Tuna Inc. AOC, transporting executives and personnel in dangerous situations.</p>
+                        <p><strong>002 — SECRECY:</strong> A black-and-gold Tuna Security reconnaissance aircraft equipped with a rooftop AWACS system for night operations.</p>
+                        <p><strong>003 — OVERWEIGHT:</strong> A cargo variant with two rear butterfly doors and built-in cargo lifts. In August 2026, it was converted into an experimental hyperfuel-reactor-powered aircraft.</p>
+                        <p><strong>004 — OPALITE:</strong> The commercial variant, seating 30 economy passengers and 8 business-class passengers, with 5 crew members and 2 pilots. Rickje has flown on it.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Multi-role aircraft family</td></tr>
+                                    <tr><th>Variants</th><td>HAZARDOUS, SECRECY, OVERWEIGHT, OPALITE</td></tr>
+                                    <tr><th>HAZARDOUS role</th><td>Executive and personnel transport in dangerous situations</td></tr>
+                                    <tr><th>SECRECY role</th><td>Reconnaissance and night operations</td></tr>
+                                    <tr><th>SECRECY equipment</th><td>Rooftop AWACS system</td></tr>
+                                    <tr><th>OVERWEIGHT role</th><td>Cargo and experimental propulsion</td></tr>
+                                    <tr><th>OVERWEIGHT cargo access</th><td>Rear butterfly doors and cargo lifts</td></tr>
+                                    <tr><th>OPALITE economy</th><td>30 passengers</td></tr>
+                                    <tr><th>OPALITE business class</th><td>8 passengers</td></tr>
+                                    <tr><th>OPALITE pilots</th><td>2</td></tr>
+                                    <tr><th>OPALITE other crew</th><td>5</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab commercial" data-name="AB-1400">
+                <button class="image-button" type="button" aria-label="Zoom AB-1400 image">
                     <img src="ab1400.png" alt="AB-1400 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1400</h3>
-                    <p>
-                        The largest AB aircraft, with a double-deck cabin
-                        stretching 2.7 plots in length. It seats 460
-                        passengers, with 2 pilots and space for 10 crew
-                        members. Despite its size, it is known for poor
-                        flight performance and a tendency to stall.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1400</h3>
+                        <span class="tag">Large airliner</span>
+                    </div>
+                    <div class="description">
+                        <p>The largest AB aircraft, with a double-deck cabin stretching 2.7 plots in length. It seats 460 passengers, with 2 pilots and space for 10 crew members. Despite its size, it is known for poor flight performance and a tendency to stall.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Double-decker airliner</td></tr>
+                                    <tr><th>Passengers</th><td>460</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew capacity</th><td>10</td></tr>
+                                    <tr><th>Cabin</th><td>Double-deck, 2.7 plots long</td></tr>
+                                    <tr><th>Flight characteristics</th><td>Known for poor performance and stalling</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab executive security" data-name="AB-1500">
+                <button class="image-button" type="button" aria-label="Zoom AB-1500 image">
                     <img src="ab1500.png" alt="AB-1500 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1500</h3>
-                    <p>
-                        Built specifically for [EX]CLUSIVE executive
-                        transport. It features 2 pilots, five reclining
-                        seats for executive personnel, a toilet and
-                        a nuclear launch room at the rear.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1500</h3>
+                        <span class="tag">Executive</span>
+                    </div>
+                    <div class="description">
+                        <p>Built specifically for [EX]CLUSIVE executive transport. It features 2 pilots, five reclining seats for executive personnel, a toilet and a nuclear launch room at the rear.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Executive transport</td></tr>
+                                    <tr><th>Executive seats</th><td>5 reclining seats</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Facilities</th><td>Toilet and rear nuclear launch room</td></tr>
+                                    <tr><th>Operator</th><td>[EX]CLUSIVES</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="ab cargo" data-name="AB-1600">
+                <button class="image-button" type="button" aria-label="Zoom AB-1600 image">
                     <img src="ab1600.png" alt="AB-1600 aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>AB-1600</h3>
-                    <p>
-                        Designed for efficient cargo operations, the
-                        AB-1600 features the largest engines of any
-                        Tuna Inc. vehicle, with two enormous jets built
-                        into its wings. Tilted landing gear and a huge
-                        rear hatch allow for cargo drops.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>AB-1600</h3>
+                        <span class="tag">Cargo</span>
+                    </div>
+                    <div class="description">
+                        <p>Designed for efficient cargo operations, the AB-1600 features the largest engines of any Tuna Inc. vehicle, with two enormous jets built into its wings. Tilted landing gear and a huge rear hatch allow for cargo drops.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Cargo aircraft</td></tr>
+                                    <tr><th>Engines</th><td>2 large wing-mounted jets</td></tr>
+                                    <tr><th>Engine size</th><td>Largest engines on any Tuna Inc. vehicle</td></tr>
+                                    <tr><th>Landing gear</th><td>Tilted</td></tr>
+                                    <tr><th>Cargo access</th><td>Large rear hatch</td></tr>
+                                    <tr><th>Passenger capacity</th><td>Not specified</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
         </div>
+    </section>
 
-        <h2 class="section-title">Other Aircraft</h2>
+    <section class="aircraft-group" data-group="other">
+        <h2 class="section-title">
+            Other Aircraft
+            <small>Special designs</small>
+        </h2>
 
         <div class="aircraft-list">
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="commercial" data-name="Arrowhead">
+                <button class="image-button" type="button" aria-label="Zoom Arrowhead image">
                     <img src="Arrowhead.png" alt="Arrowhead aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>Arrowhead</h3>
-                    <p>
-                        The fastest commercial airliner ever built by
-                        Tuna Inc. With a reported speed of 4,526 SPS,
-                        equivalent to Mach 3.6946938776 in real-speed
-                        terms, it carries 120 passengers, 10 crew members
-                        and 2 pilots.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>Arrowhead</h3>
+                        <span class="tag">High-speed</span>
+                    </div>
+                    <div class="description">
+                        <p>The fastest commercial airliner ever built by Tuna Inc. With a reported speed of 4,526 SPS, equivalent to Mach 3.6946938776 in real-speed terms, it carries 120 passengers, 10 crew members and 2 pilots.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>High-speed commercial airliner</td></tr>
+                                    <tr><th>Passengers</th><td>120</td></tr>
+                                    <tr><th>Pilots</th><td>2</td></tr>
+                                    <tr><th>Other crew</th><td>10</td></tr>
+                                    <tr><th>Reported maximum speed</th><td>4,526 SPS</td></tr>
+                                    <tr><th>Reported real-speed equivalent</th><td>Mach 3.6946938776</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
-            <article class="aircraft">
-                <div class="aircraft-image">
+            <article class="aircraft" data-categories="commercial security" data-name="Aetherveil">
+                <button class="image-button" type="button" aria-label="Zoom Aetherveil image">
                     <img src="aethervail.png" alt="Aetherveil aircraft">
-                </div>
-                <div class="aircraft-details">
-                    <h3>Aetherveil</h3>
-                    <p>
-                        Originally intended to serve as the second Tuna
-                        Inc. AOC, before being replaced by AB-1200
-                        HAZARDOUS. A Tuna Security variant features a
-                        detachable hump providing extra space or a
-                        control centre. A version without the hump is
-                        also available for commercial service.
-                    </p>
+                    <span class="zoom-hint">Click to enlarge</span>
+                </button>
+                <div>
+                    <div class="aircraft-heading">
+                        <h3>Aetherveil</h3>
+                        <span class="tag">Multi-role</span>
+                    </div>
+                    <div class="description">
+                        <p>Originally intended to serve as the second Tuna Inc. AOC, before being replaced by AB-1200 HAZARDOUS. A Tuna Security variant features a detachable hump providing extra space or a control centre. A version without the hump is also available for commercial service.</p>
+                    </div>
+                    <details>
+                        <summary>Aircraft specifications</summary>
+                        <div class="spec-table-wrap">
+                            <table class="spec-table">
+                                <tbody>
+                                    <tr><th>Aircraft type</th><td>Multi-role aircraft</td></tr>
+                                    <tr><th>Original intended role</th><td>Second Tuna Inc. AOC</td></tr>
+                                    <tr><th>Security variant</th><td>Detachable hump for extra space or a control centre</td></tr>
+                                    <tr><th>Commercial variant</th><td>Version without the hump</td></tr>
+                                    <tr><th>Capacity and speed</th><td>Not specified</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </article>
 
         </div>
-    </main>
+    </section>
 
-    <footer>
-        Tuna Inc. Image Centre
-    </footer>
+    <div class="no-results" id="noResults">
+        No aircraft match your search. Try another name or category.
+    </div>
+</main>
+
+<footer>
+    Tuna Inc. — Aircraft Catalogue
+</footer>
+
+<div
+    class="lightbox"
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Enlarged aircraft image"
+    aria-hidden="true"
+>
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close image">&times;</button>
+    <img id="lightboxImage" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<script>
+    const searchInput = document.getElementById("aircraftSearch");
+    const filterButtons = document.querySelectorAll(".filter");
+    const aircraftCards = document.querySelectorAll(".aircraft");
+    const aircraftGroups = document.querySelectorAll(".aircraft-group");
+    const resultsCount = document.getElementById("resultsCount");
+    const noResults = document.getElementById("noResults");
+
+    let activeCategory = "all";
+
+    function filterAircraft() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        aircraftCards.forEach(function(card) {
+            const categories = card.dataset.categories.split(" ");
+            const searchableText = card.innerText.toLowerCase();
+
+            const matchesCategory =
+                activeCategory === "all" ||
+                categories.includes(activeCategory);
+
+            const matchesSearch =
+                searchableText.includes(searchTerm) ||
+                card.dataset.name.toLowerCase().includes(searchTerm);
+
+            const visible = matchesCategory && matchesSearch;
+
+            card.hidden = !visible;
+
+            if (visible) {
+                visibleCount++;
+            }
+        });
+
+        aircraftGroups.forEach(function(group) {
+            const visibleCards = group.querySelectorAll(
+                ".aircraft:not([hidden])"
+            );
+
+            group.hidden = visibleCards.length === 0;
+        });
+
+        resultsCount.textContent =
+            "Showing " + visibleCount +
+            (visibleCount === 1 ? " aircraft" : " aircraft");
+
+        noResults.classList.toggle("show", visibleCount === 0);
+    }
+
+    searchInput.addEventListener("input", filterAircraft);
+
+    filterButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            activeCategory = button.dataset.filter;
+
+            filterButtons.forEach(function(otherButton) {
+                otherButton.classList.remove("active");
+            });
+
+            button.classList.add("active");
+            filterAircraft();
+        });
+    });
+
+    /* Image zoom */
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.src = "";
+    }
+
+    document.querySelectorAll(".image-button").forEach(function(button) {
+        button.addEventListener("click", function() {
+            const image = button.querySelector("img");
+
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+            lightboxCaption.textContent = image.alt;
+
+            lightbox.classList.add("open");
+            lightbox.setAttribute("aria-hidden", "false");
+            lightboxClose.focus();
+        });
+    });
+
+    lightboxClose.addEventListener("click", function(event) {
+        event.stopPropagation();
+        closeLightbox();
+    });
+
+    lightbox.addEventListener("click", function(event) {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" && lightbox.classList.contains("open")) {
+            closeLightbox();
+        }
+    });
+</script>
 
 </body>
 </html>
