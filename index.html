@@ -1,629 +1,133 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tuna Inc.</title>
-<meta name="description" content="The official Tuna Inc. website.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>Tuna Inc. — Official Image Archive</title>
 
-body {
-    margin: 0;
-    background: #101012;
-    color: #eeeeee;
-    font-family: Segoe UI;
-    font-size: 15px;
-    line-height: 1.6;
-}
+    <meta name="description" content="Official Tuna Inc. image archive featuring Tuna Inc. logos, departments, projects, facilities and more.">
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b0d;
+            color: white;
+        }
 
-header {
-    border-bottom: 1px solid #303035;
-    background: #151518;
-}
+        header {
+            padding: 50px 20px;
+            text-align: center;
+            background: #111116;
+            border-bottom: 1px solid #29292f;
+        }
 
-.header-inner {
-    max-width: 1050px;
-    margin: auto;
-    padding: 18px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-}
+        h1 {
+            margin: 0;
+            font-size: 42px;
+            letter-spacing: 2px;
+        }
 
-.site-name {
-    font-size: 19px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
+        header p {
+            color: #aaa;
+            font-size: 18px;
+        }
 
-nav {
-    display: flex;
-    gap: 22px;
-    flex-wrap: wrap;
-}
+        .gallery {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
 
-nav a {
-    color: #b5b5bd;
-    font-size: 14px;
-}
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
 
-nav a:hover,
-nav a.active {
-    color: #c28be7;
-}
+        .card {
+            background: #15151a;
+            border: 1px solid #29292f;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
 
-main {
-    max-width: 1000px;
-    min-height: 70vh;
-    margin: auto;
-    padding: 0 24px;
-}
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #8d35c7;
+        }
 
-.page {
-    display: none;
-}
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            background: #ffffff;
+            display: block;
+        }
 
-.page.active {
-    display: block;
-}
+        .card h2 {
+            font-size: 18px;
+            margin: 18px;
+        }
 
-/* Home */
-
-.home-content {
-    padding: 75px 0 55px;
-    max-width: 650px;
-}
-
-.home-content h1 {
-    margin: 0 0 18px;
-    font-size: 38px;
-    line-height: 1.2;
-}
-
-.home-content p {
-    color: #b7b7bf;
-    max-width: 560px;
-}
-
-.home-links {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-}
-
-.home-links a {
-    padding: 10px 16px;
-    border: 1px solid #44444b;
-}
-
-.home-links a:first-child {
-    background: #7336a0;
-    border-color: #7336a0;
-}
-
-.home-links a:hover {
-    border-color: #bd83e2;
-}
-
-.home-note {
-    border-top: 1px solid #303035;
-    padding: 24px 0;
-    color: #9999a3;
-    font-size: 13px;
-}
-
-/* Section headings */
-
-.page-heading {
-    padding: 38px 0 25px;
-    border-bottom: 1px solid #303035;
-    margin-bottom: 28px;
-}
-
-.page-heading h1 {
-    margin: 0 0 7px;
-    font-size: 29px;
-}
-
-.page-heading p {
-    margin: 0;
-    color: #a9a9b2;
-}
-
-/* Branch directory */
-
-.branch-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    padding-bottom: 45px;
-}
-
-.branch-card {
-    min-width: 0;
-    padding: 0;
-    background: #18181c;
-    border: 1px solid #303035;
-    color: white;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-}
-
-.branch-card:hover {
-    border-color: #8d50b5;
-}
-
-.logo-box {
-    width: 100%;
-    height: 190px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    overflow: hidden;
-}
-
-.logo-box img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.branch-info {
-    padding: 13px 15px 16px;
-}
-
-.branch-info h2 {
-    margin: 0 0 4px;
-    font-size: 16px;
-    font-weight: normal;
-}
-
-.branch-info p {
-    margin: 0;
-    color: #a5a5af;
-    font-size: 13px;
-}
-
-.branch-info span {
-    display: inline-block;
-    margin-top: 12px;
-    color: #c28be7;
-    font-size: 12px;
-}
-
-/* Individual branch */
-
-.back-link {
-    display: inline-block;
-    margin-bottom: 25px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: #c28be7;
-    font: inherit;
-    cursor: pointer;
-}
-
-.branch-detail {
-    padding: 15px 0 55px;
-}
-
-.detail-logo {
-    width: 100%;
-    height: 300px;
-    padding: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    border: 1px solid #303035;
-}
-
-.detail-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.branch-detail h1 {
-    margin: 25px 0 10px;
-    font-size: 30px;
-}
-
-.branch-detail p {
-    max-width: 650px;
-    color: #b7b7bf;
-}
-
-.detail-section {
-    max-width: 650px;
-    margin-top: 28px;
-    padding-top: 17px;
-    border-top: 1px solid #303035;
-}
-
-.detail-section h2 {
-    margin: 0 0 8px;
-    font-size: 16px;
-}
-
-footer {
-    margin-top: 20px;
-    border-top: 1px solid #303035;
-    color: #898991;
-    font-size: 12px;
-}
-
-.footer-inner {
-    max-width: 1000px;
-    margin: auto;
-    padding: 22px 24px;
-}
-
-/* Smaller screens */
-
-@media (max-width: 700px) {
-    .header-inner {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    nav {
-        gap: 17px;
-    }
-
-    .branch-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    .logo-box {
-        height: 150px;
-        padding: 12px;
-    }
-
-    .home-content {
-        padding-top: 50px;
-    }
-}
-
-@media (max-width: 430px) {
-    .branch-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .logo-box {
-        height: 210px;
-    }
-
-    .home-content h1 {
-        font-size: 32px;
-    }
-}
-</style>
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <div class="header-inner">
-        <a class="site-name" href="#home">TUNA INC.</a>
-
-        <nav aria-label="Main navigation">
-            <a href="#home" data-page="home">Home</a>
-            <a href="#branches" data-page="branches">Branches</a>
-            <a href="#ranks" data-page="ranks">Ranks</a>
-            <a href="#games" data-page="games">Games</a>
-            <a href="#events" data-page="events">Events</a>
-            <a href="#lore" data-page="lore">Lore</a>
-        </nav>
-    </div>
+    <h1>TUNA INC.</h1>
+    <p>Official Tuna Inc. Image Archive</p>
 </header>
 
-<main>
+<main class="gallery">
 
-    <!-- HOME PAGE -->
-    <section class="page" id="home">
-        <div class="home-content">
-            <h1>Welcome to Tuna Inc.</h1>
+    <div class="card">
+        <img src="Tuna%20Inc%20Logo.png"
+             alt="Tuna Inc. Logo">
+        <h2>Tuna Inc. Logo</h2>
+    </div>
 
-            <p>
-                This is the official Tuna Inc. page. Here you can find
-                information about our branches, ranks, games, events
-                and history.
-            </p>
+    <div class="card">
+        <img src="Tuna%20Air%20Logo.png"
+             alt="Tuna Air Logo">
+        <h2>Tuna Air Logo</h2>
+    </div>
 
-            <p>
-                Use the links below to find what you're looking for.
-            </p>
+    <div class="card">
+        <img src="Tuna%20Security%20Logo.png"
+             alt="Tuna Security Logo">
+        <h2>Tuna Security Logo</h2>
+    </div>
 
-            <div class="home-links">
-                <a href="#branches">Our branches</a>
-                <a href="#games">Our games</a>
-            </div>
-        </div>
+    <div class="card">
+        <img src="Tuna%20Hazards%20Logo.png"
+             alt="Tuna Hazards Logo">
+        <h2>Tuna Hazards Logo</h2>
+    </div>
 
-        <div class="home-note">
-            Official Tuna Inc. website and archive.
-        </div>
-    </section>
+    <div class="card">
+        <img src="Tuna%20Inc.%20Cafe%20Logo.png"
+             alt="Tuna Inc. Cafe Logo">
+        <h2>Tuna Inc. Cafe Logo</h2>
+    </div>
 
-    <!-- BRANCHES PAGE -->
-    <section class="page" id="branches">
-        <div class="page-heading">
-            <h1>Branches</h1>
-            <p>Find out more about the different branches of Tuna Inc.</p>
-        </div>
-
-        <div class="branch-grid" id="branch-grid"></div>
-    </section>
-
-    <!-- BRANCH DETAILS -->
-    <section class="page" id="branch-detail">
-        <div class="branch-detail">
-            <button class="back-link" id="back-button">
-                &larr; Back to branches
-            </button>
-
-            <div class="detail-logo">
-                <img id="detail-image" src="" alt="">
-            </div>
-
-            <h1 id="detail-title"></h1>
-            <p id="detail-description"></p>
-
-            <div class="detail-section">
-                <h2>About</h2>
-                <p id="detail-about"></p>
-            </div>
-
-            <div class="detail-section">
-                <h2>Department</h2>
-                <p id="detail-type"></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- OTHER PAGES -->
-    <section class="page" id="ranks">
-        <div class="page-heading">
-            <h1>Ranks</h1>
-            <p>Information about the ranks within Tuna Inc.</p>
-        </div>
-    </section>
-
-    <section class="page" id="games">
-        <div class="page-heading">
-            <h1>Games</h1>
-            <p>Games and projects made by Tuna Inc.</p>
-        </div>
-    </section>
-
-    <section class="page" id="events">
-        <div class="page-heading">
-            <h1>Events</h1>
-            <p>Upcoming events and records of past events.</p>
-        </div>
-    </section>
-
-    <section class="page" id="lore">
-        <div class="page-heading">
-            <h1>Lore</h1>
-            <p>The history and story of Tuna Inc.</p>
-        </div>
-    </section>
+    <div class="card">
+        <img src="T.M.A%20Logo.png"
+             alt="Tuna Military Authority Logo">
+        <h2>T.M.A. Logo</h2>
+    </div>
 
 </main>
 
 <footer>
-    <div class="footer-inner">
-        &copy; Tuna Inc. All rights reserved.
-    </div>
+    © Tuna Inc. — Official Archive
 </footer>
-
-<script>
-const branches = [
-    {
-        id: "tuna-inc",
-        name: "Tuna Inc.",
-        image: "Tuna%20Inc%20Logo.png",
-        short: "The main organisation.",
-        type: "Parent organisation",
-        description:
-            "Tuna Inc. is the main organisation that brings its different branches and projects together.",
-        about:
-            "The central organisation behind the Tuna Inc. group."
-    },
-    {
-        id: "tuna-air",
-        name: "Tuna Air",
-        image: "Tuna%20Air%20Logo.png",
-        short: "Aviation and airline projects.",
-        type: "Aviation",
-        description:
-            "Tuna Air is the aviation branch of Tuna Inc.",
-        about:
-            "Its focus is aviation, aircraft and airline-related projects."
-    },
-    {
-        id: "tuna-security",
-        name: "Tuna Security",
-        image: "Tuna%20Security%20Logo.png",
-        short: "Security and protection.",
-        type: "Security",
-        description:
-            "Tuna Security is the security branch of Tuna Inc.",
-        about:
-            "The branch covers security personnel, facilities and related activities."
-    },
-    {
-        id: "tuna-hazards",
-        name: "Tuna Hazards",
-        image: "Tuna%20Hazards%20Logo.png",
-        short: "Hazards and specialist projects.",
-        type: "Specialist branch",
-        description:
-            "Tuna Hazards is one of the branches of Tuna Inc.",
-        about:
-            "More information about its responsibilities and projects can be added here."
-    },
-    {
-        id: "tuna-cafe",
-        name: "Tuna Inc. Cafe",
-        image: "Tuna%20Inc.%20Cafe%20Logo.png",
-        short: "The cafe branch.",
-        type: "Cafe",
-        description:
-            "Tuna Inc. Cafe is the cafe branch associated with Tuna Inc.",
-        about:
-            "Its page can include information about the cafe and its activities."
-    },
-    {
-        id: "tma",
-        name: "T.M.A.",
-        image: "T.M.A%20Logo.png",
-        short: "Tuna Military Authority.",
-        type: "Military authority",
-        description:
-            "T.M.A. stands for Tuna Military Authority.",
-        about:
-            "This page can be expanded with its history, structure and responsibilities."
-    }
-];
-
-const grid = document.getElementById("branch-grid");
-
-branches.forEach(branch => {
-    const card = document.createElement("button");
-    card.className = "branch-card";
-    card.type = "button";
-
-    const logoBox = document.createElement("div");
-    logoBox.className = "logo-box";
-
-    const image = document.createElement("img");
-    image.src = branch.image;
-    image.alt = branch.name + " logo";
-    image.loading = "lazy";
-
-    logoBox.appendChild(image);
-
-    const info = document.createElement("div");
-    info.className = "branch-info";
-
-    const title = document.createElement("h2");
-    title.textContent = branch.name;
-
-    const description = document.createElement("p");
-    description.textContent = branch.short;
-
-    const link = document.createElement("span");
-    link.textContent = "More information →";
-
-    info.append(title, description, link);
-    card.append(logoBox, info);
-
-    card.addEventListener("click", () => {
-        location.hash = "branch/" + branch.id;
-    });
-
-    grid.appendChild(card);
-});
-
-function showBranch(branch) {
-    document.getElementById("detail-image").src = branch.image;
-    document.getElementById("detail-image").alt = branch.name + " logo";
-    document.getElementById("detail-title").textContent = branch.name;
-    document.getElementById("detail-description").textContent =
-        branch.description;
-    document.getElementById("detail-about").textContent = branch.about;
-    document.getElementById("detail-type").textContent = branch.type;
-
-    showPage("branch-detail");
-}
-
-function showPage(id) {
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.toggle("active", page.id === id);
-    });
-
-    const navPage = id === "branch-detail" ? "branches" : id;
-
-    document.querySelectorAll("nav a").forEach(link => {
-        const active = link.dataset.page === navPage;
-        link.classList.toggle("active", active);
-
-        if (active) {
-            link.setAttribute("aria-current", "page");
-        } else {
-            link.removeAttribute("aria-current");
-        }
-    });
-
-    window.scrollTo(0, 0);
-}
-
-function route() {
-    const hash = decodeURIComponent(location.hash.slice(1));
-
-    if (hash.startsWith("branch/")) {
-        const id = hash.slice("branch/".length);
-        const branch = branches.find(item => item.id === id);
-
-        if (branch) {
-            showBranch(branch);
-            return;
-        }
-
-        location.hash = "branches";
-        return;
-    }
-
-    const validPages = [
-        "home", "branches", "ranks", "games", "events", "lore"
-    ];
-
-    showPage(validPages.includes(hash) ? hash : "home");
-}
-
-document.querySelectorAll("nav a").forEach(link => {
-    link.addEventListener("click", event => {
-        event.preventDefault();
-        location.hash = link.dataset.page;
-    });
-});
-
-document.querySelector(".site-name").addEventListener("click", event => {
-    event.preventDefault();
-    location.hash = "home";
-});
-
-document.getElementById("back-button").addEventListener("click", () => {
-    location.hash = "branches";
-});
-
-window.addEventListener("hashchange", route);
-
-route();
-</script>
 
 </body>
 </html>
