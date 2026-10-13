@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ranks — Tuna Inc.</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #111;
+            background-image:
+                linear-gradient(
+                    rgba(10, 10, 10, 0.72),
+                    rgba(10, 10, 10, 0.86)
+                ),
+                url("planeimage1.PNG");
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #eee;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            padding: 24px 6%;
+            background: rgba(15, 15, 15, 0.94);
+            border-bottom: 1px solid #303030;
+        }
+
+        header a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        header a:hover {
+            color: #fff;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 45px 24px 70px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+
+        .intro {
+            margin: 0 0 32px;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .rank-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rank {
+            padding: 23px 25px;
+            background: rgba(20, 20, 20, 0.93);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            transition: border-color 0.2s;
+        }
+
+        .rank:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .rank p {
+            margin: 0;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .founder {
+            border-left: 3px solid #777;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            background: rgba(15, 15, 15, 0.94);
+            border-top: 1px solid #303030;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                background-attachment: scroll;
+            }
+
+            main {
+                padding: 30px 14px 45px;
+            }
+
+            .rank {
+                padding: 19px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html">Home</a>
+    </header>
+
+    <main>
+        <h1>Ranks</h1>
+        <p class="intro">
+            The roles and responsibilities within Tuna Inc.
+        </p>
+
+        <div class="rank-list">
+
+            <section class="rank founder">
+                <h2>Founder</h2>
+                <p>
+                    The legendary person who started it all: cat1.
+                </p>
+            </section>
+
+            <section class="rank">
+                <h2>Chairman</h2>
+                <p>
+                    Manages the main branch and oversees the others.
+                    The Chairman is the lead developer, owns the Roblox
+                    groups, and creates other content, including in-game
+                    clothing and videos.
+                </p>
+            </section>
+
+            <section class="rank">
+                <h2>Vice Chairman</h2>
+                <p>
+                    Manages server moderation, promotions and the Discord
+                    server. The Vice Chairman oversees applications and
+                    helps coordinate promotions.
+                </p>
+            </section>
+
+            <section class="rank">
+                <h2>Head Of Staff</h2>
+                <p>
+                    Oversees branch leaders and members in important roles.
+                    The Head Of Staff plans events, supports members and
+                    helps keep the organisation running smoothly.
+                </p>
+            </section>
+
+            <section class="rank">
+                <h2>R&D Director</h2>
+                <p>
+                    Develops new Plane Crazy technology concepts, lore
+                    and game ideas. The R&D Director oversees Tuna Inc.'s
+                    lore and innovation.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        Tuna Inc. Image Centre
+    </footer>
+
+</body>
+</html>
