@@ -1,0 +1,355 @@
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilities</title>
+    <meta name="description" content="Explore Tuna Inc. facilities">
+    <link rel="icon" type="image/x-icon" href="logos%20(6).ico">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html { min-height: 100%; scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: #111;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            padding: 25px 6%;
+            border-bottom: 1px solid #303030;
+            background: #151515;
+        }
+
+        header a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        header a:hover, header a:focus-visible { color: #fff; }
+
+        main {
+            max-width: 1150px;
+            margin: auto;
+            padding: 35px 24px 65px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            font-weight: 500;
+        }
+
+        .description {
+            margin: 0 0 28px;
+            color: #999;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .facility-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 42px;
+        }
+
+        .facility-nav a {
+            display: inline-block;
+            padding: 9px 12px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 13px;
+            background: #1b1b1b;
+            border: 1px solid #333;
+        }
+
+        .facility-nav a:hover, .facility-nav a:focus-visible {
+            color: #fff;
+            background: #303030;
+            border-color: #888;
+        }
+
+        .facility {
+            padding: 0 0 38px;
+            margin: 0 0 38px;
+            border-bottom: 1px solid #303030;
+            scroll-margin-top: 20px;
+        }
+
+        .facility:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .facility h2 {
+            margin: 0 0 7px;
+            font-size: 23px;
+            font-weight: 500;
+        }
+
+        .facility .subtitle {
+            margin: 0 0 15px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .facility .details {
+            max-width: 900px;
+            margin: 0 0 22px;
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .item { min-width: 0; }
+
+        .image-box {
+            height: 220px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1b1b1b;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .image-box img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .item p {
+            margin: 10px 0 0;
+            color: #ccc;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            background: #101010;
+            border-top: 1px solid #292929;
+        }
+
+        @media (max-width: 700px) {
+            main { padding: 30px 18px 50px; }
+            .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .image-box { height: 170px; padding: 10px; }
+            .facility h2 { font-size: 21px; }
+        }
+
+        @media (max-width: 420px) {
+            .gallery { grid-template-columns: 1fr; }
+            .image-box { height: 220px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Home</a>
+    </header>
+
+    <main>
+        <h1>Facilities</h1>
+        <p class="description">
+            Explore Tuna Inc. Facilities
+        </p>
+
+        <nav class="facility-nav" aria-label="Jump to a facility">
+            <a href="#til">TIL</a>
+            <a href="#titc0">TITC0</a>
+            <a href="#titc1">TITC1</a>
+            <a href="#tstf2">TSTF2 / TITC2</a>
+            <a href="#tstf3">TSTF3</a>
+            <a href="#tstf4">TSTF4</a>
+            <a href="#tshq">TSHQ</a>
+            <a href="#grb">GRB</a>
+            <a href="#tihd">TIHD</a>
+        </nav>
+
+        <section class="facility" id="til">
+            <h2>TIL | Tuna Inc. Laboratory</h2>
+            <p class="subtitle">The first Tuna Inc. game</p>
+            <p class="details">
+                Created on 17 February 2024, Tuna Inc. Laboratory was a place for people
+                to contribute to projects, practice programming and modelling, and spend
+                time together socially. Alongside its development work, it became a
+                familiar hangout for meetings and chats. The game has passed 5,000 visits
+                and was famously played by YouTuber Seniac, whose channel has over 900,000
+                subscribers.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TIL HOME.png" alt="Tuna Inc. Laboratory home area"></div><p>Laboratory | Home</p></div>
+                <div class="item"><div class="image-box"><img src="TIL1.png" alt="Interior view of Tuna Inc. Laboratory, image 1"></div><p>Laboratory | View 1</p></div>
+                <div class="item"><div class="image-box"><img src="TIL2.png" alt="Interior view of Tuna Inc. Laboratory, image 2"></div><p>Laboratory | View 2</p></div>
+                <div class="item"><div class="image-box"><img src="TIL CORE.png" alt="Core area inside Tuna Inc. Laboratory"></div><p>Laboratory | Core</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="titc0">
+            <h2>TITC0 | Tuna Inc. Training Center 0</h2>
+            <p class="subtitle">Tuna Security Training Facility 0</p>
+            <p class="details">
+                Built in roughly 30 minutes in Plane Crazy, TITC0 was a quick, early
+                training base featuring an obstacle course, a main hall and a car park.
+                Despite its simple design, it served as Tuna Security's first base during
+                the hunt for Evilcat and marked an early step in the organisation's
+                training-facility history.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TITC0 OUTSIDE.png" alt="Exterior of Tuna Inc. Training Center 0"></div><p>Training Center 0 | Exterior</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="titc1">
+            <h2>TITC1 | Tuna Inc. Training Center 1</h2>
+            <p class="subtitle">Tuna Security Training Facility 1</p>
+            <p class="details">
+                After TITC0 proved too limited for the organisation's needs, TITC1 was
+                created on the same day as its predecessor. It expanded the training
+                experience with three maps and two weapons, providing a more useful
+                environment for Tuna Security's early training sessions.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TITC1 HOME.png" alt="Home page of Tuna Inc. Training Center 1"></div><p>Training Center 1 | Home</p></div>
+                <div class="item"><div class="image-box"><img src="TITC1 INTERROGATION.png" alt="Interrogation occuring at Tuna Inc. Training Center 1"></div><p>Interrogation taking place</p></div>
+                <div class="item"><div class="image-box"><img src="TITC1 SHARKS2 MAP.png" alt="Sharks 2 training map at Tuna Inc. Training Center 1"></div><p>Sharks 2 Map</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="tstf2">
+            <h2>TSTF2 | Tuna Security Training Facility 2</h2>
+            <p class="subtitle">Also known as TITC2 | Tuna Inc. Training Center 2</p>
+            <p class="details">
+                TITC2 and TSTF2 refer to the same facility. This was the first training
+                facility to use the Tuna Security Training Facility name, and its layout
+                established the basic format followed by later TSTFs. Operating from
+                February 2024 to October 2024, it hosted many training sessions and events
+                and became the foundation for the facilities that followed.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TITC2 HOME.png" alt="Home page of Tuna Security Training Facility 2"></div><p>Facility 2 | Home</p></div>
+                <div class="item"><div class="image-box"><img src="TITC2 CLASS.png" alt="Classroom at Tuna Security Training Facility 2"></div><p>Classroom</p></div>
+                <div class="item"><div class="image-box"><img src="TITC2 TRAINING.png" alt="Training area at Tuna Security Training Facility 2"></div><p>Training Area</p></div>
+                <div class="item"><div class="image-box"><img src="TITC2 CLASS2.png" alt="Second classroom view at Tuna Security Training Facility 2"></div><p>Classroom | View 2</p></div>
+                <div class="item"><div class="image-box"><img src="TIT2 CLASS3.png" alt="Third classroom view at Tuna Security Training Facility 2"></div><p>Classroom | View 3</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="tstf3">
+            <h2>TSTF3 | Tuna Security Training Facility 3</h2>
+            <p class="subtitle">October 2024 – June 2026</p>
+            <p class="details">
+                Running from October 2024 to June 2026, TSTF3 was the longest-running
+                training facility. It was a refurbished version of TSTF2, built on Tuna
+                Security Headquarters land about 14 miles from the main Tuna Inc. Complex.
+                Known for its large, detailed map, it included the Tunair Training Centre,
+                solar-generation sites and large defensive guns protecting the base.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TSTF3 TOPSIDE.png" alt="Topside view of Tuna Security Training Facility 3"></div><p>Topside</p></div>
+                <div class="item"><div class="image-box"><img src="TSTF3 GUN.png" alt="Large defensive gun at Tuna Security Training Facility 3"></div><p>Defensive Gun</p></div>
+                <div class="item"><div class="image-box"><img src="TSTF3 AIRPORT.png" alt="Airport area at Tuna Security Training Facility 3"></div><p>Airport</p></div>
+                <div class="item"><div class="image-box"><img src="TSTF3 HALL.png" alt="Main hall at Tuna Security Training Facility 3"></div><p>Main Hall</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="tstf4">
+            <h2>TSTF4 | Tuna Security Training Facility 4</h2>
+            <p class="subtitle">The modern training facility</p>
+            <p class="details">
+                TSTF4 is Tuna Security's most modern training facility, with more polished
+                modelling and scripting than its 2024-era predecessors. Its refined weapon
+                system uses TSDs (Tuna Security Disinfector) from Glaceria in place of
+                TSRs (Tuna Security Rifle). The facility features more than 15 weapons,
+                over 20 maps and an updated training environment.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TSTF4 Main room.png" alt="Main room of Tuna Security Training Facility 4"></div><p>Main Room</p></div>
+                <div class="item"><div class="image-box"><img src="TSTF4 Hall.png" alt="Hallway at Tuna Security Training Facility 4"></div><p>Hall</p></div>
+                <div class="item"><div class="image-box"><img src="TSTF4 main room 2.png" alt="Alternate view of the main room at Tuna Security Training Facility 4"></div><p>Main Room | View 2</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="tshq">
+            <h2>TSHQ | Tuna Security Headquarters</h2>
+            <p class="subtitle">Security operations, aircraft and testing grounds</p>
+            <p class="details">
+                Tuna Security Headquarters is the wider area of land where TSTF
+                is located. It includes an airbase, testing grounds for new
+                aircraft and inventions, large laser-defence turrets, submarines, trains
+                and trams. Security patrols operate here to defend the base against
+                infiltrators during drills and real attacks.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TSHQ outside.png" alt="Exterior grounds of Tuna Security Headquarters"></div><p>Headquarters | Exterior</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="grb">
+            <h2>GRB | Glaceria Research Base</h2>
+            <p class="subtitle">Underground research complex in Glaceria, Antarctica</p>
+            <p class="details">
+                Glaceria Research Base is Tuna Inc.'s newest facility, built deep
+                underground in Glaceria, Antarctica. A verdantite power core supplies its
+                energy, while more than ten laboratories support experiments and invention
+                testing. A central tram line runs along the facility's backbone, connecting
+                areas that include sleeping quarters, submarine import harbours, cafeterias,
+                medical facilities, laboratories and security zones.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="GRB Tram.png" alt="Tram transport system inside Glaceria Research Base"></div><p>Tram System</p></div>
+                <div class="item"><div class="image-box"><img src="GRB Lab.png" alt="Laboratory inside Glaceria Research Base"></div><p>Research Laboratory</p></div>
+                <div class="item"><div class="image-box"><img src="GRB Core.png" alt="Verdantite power core at Glaceria Research Base"></div><p>Power Core</p></div>
+                <div class="item"><div class="image-box"><img src="GRB Control ROom.png" alt="Control room at Glaceria Research Base"></div><p>Control Room</p></div>
+                <div class="item"><div class="image-box"><img src="GRBMeltdownEscape.png" alt="Meltdown occuring at Glaceria Research Base"></div><p>Meltdown Escape</p></div>
+                <div class="item"><div class="image-box"><img src="GRB Thumbnail.png" alt="Thumbnail of Glaceria Research Base's trailer"></div><p>Facility Overview</p></div>
+                <div class="item"><div class="image-box"><img src="GRBLaser.png" alt="Laser laboratory at Glaceria Research Base"></div><p>Laser System</p></div>
+            </div>
+        </section>
+
+        <section class="facility" id="tihd">
+            <h2>TIHD | Tuna Inc. Hydroelectric Dam</h2>
+            <p class="subtitle">Power infrastructure for the Tuna Inc. Complex</p>
+            <p class="details">
+                Built in January 2025, the Tuna Inc. Hydroelectric Dam became a key feature
+                of the Tuna Inc. Complex and its main source of power, also supplying nearby
+                residential sites around the Tabernas Desert. Located in the heart of the
+                complex, the dam is considered strategically important and requires strong
+                Tuna Security protection against infiltrators.
+            </p>
+            <div class="gallery">
+                <div class="item"><div class="image-box"><img src="TIHD HALL.png" alt="Interior hall at Tuna Inc. Hydroelectric Dam"></div><p>Interior Hall</p></div>
+                <div class="item"><div class="image-box"><img src="TIHD OUTSIDE.png" alt="Exterior of Tuna Inc. Hydroelectric Dam"></div><p>Exterior</p></div>
+                <div class="item"><div class="image-box"><img src="TIHD CONTROL ROOM.png" alt="Control room at Tuna Inc. Hydroelectric Dam"></div><p>Control Room</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>Tuna Inc.</footer>
+</body>
+</html>
