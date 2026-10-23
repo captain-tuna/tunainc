@@ -23,17 +23,6 @@
     button.primary:hover{background:#d5d5d5}
     button.danger{border-color:#854848;color:#ffbaba}
     button:disabled{opacity:.55;cursor:not-allowed}
-    .quick-guide{max-width:1050px;margin:0 auto 22px;padding:14px 16px;border:1px solid #3f3f3f;background:rgba(20,20,20,.86);text-align:left;border-radius:8px}
-    .quick-guide strong{display:block;margin-bottom:6px;color:#fff}
-    .quick-guide p{margin:0;color:#bbb;line-height:1.55;font-size:14px}
-    .status-guide{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-    .event-card{border-radius:10px;overflow:hidden;transition:transform .15s,border-color .15s}
-    .event-card:hover{border-color:#777;transform:translateY(-2px)}
-    .event-date{display:inline-block;background:#252525;border:1px solid #444;border-radius:5px;padding:6px 9px;line-height:1.4}
-    .event-timer{display:block;margin:0 0 12px;color:#ddd;font-size:13px;line-height:1.45}
-    .event-timer.closed{color:#f0d99b}
-    .event-timer.ended{color:#aaa}
-    .card-actions button{border-radius:6px}
     .filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
     .filters button[aria-pressed="true"]{background:#eee;color:#111;border-color:#eee}
     .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:14px;max-width:1050px;margin:0 auto;text-align:left}
@@ -95,15 +84,6 @@
       <button id="admin-logout-button" type="button" hidden>Log Out</button>
     </div>
     <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
-    <section class="quick-guide" aria-label="How sign-ups work">
-      <strong>How it works</strong>
-      <p>Choose an event to read the details, then sign up with your Roblox username. You can only sign up once per event with the same username. Your current status appears beside your name in the attendee list.</p>
-      <div class="status-guide" aria-label="Status meanings">
-        <span class="status bidding">Bidding · Awaiting decision</span>
-        <span class="status accepted">Accepted · Confirmed</span>
-        <span class="status reserve">Reserve · Backup list</span>
-      </div>
-    </section>
     <div class="filters" aria-label="Filter events">
       <button type="button" data-filter="upcoming" aria-pressed="true">Upcoming</button>
       <button type="button" data-filter="all" aria-pressed="false">All Events</button>
@@ -178,31 +158,9 @@
         ...(time ? {hour:"numeric",minute:"2-digit"} : {})
       }).format(d);
     }
-    function eventStart(event) {
-      if (!event.event_date) return null;
-      const when = new Date(`${event.event_date}T${event.event_time || "23:59"}:00`);
-      return Number.isNaN(when.getTime()) ? null : when;
-    }
     function eventIsPast(event) {
-      const when = eventStart(event);
-      return !!when && when < new Date();
-    }
-    function signupIsClosed(event) {
-      const when = eventStart(event);
-      return !when || when.getTime() - Date.now() <= 60 * 60 * 1000;
-    }
-    function eventTimerText(event) {
-      const when = eventStart(event);
-      if (!when) return "Time to be announced";
-      const diff = when.getTime() - Date.now();
-      if (diff <= 0) return "Event ended · sign-ups closed";
-      if (diff <= 60 * 60 * 1000) return "Sign-ups closed · starts in less than 1 hour";
-      const totalMinutes = Math.floor(diff / 60000);
-      const days = Math.floor(totalMinutes / 1440);
-      const hours = Math.floor((totalMinutes % 1440) / 60);
-      const minutes = totalMinutes % 60;
-      const countdown = days ? `${days}d ${hours}h ${minutes}m` : hours ? `${hours}h ${minutes}m` : `${minutes}m`;
-      return `Starts in ${countdown} · sign-ups close 1 hour before`;
+      const when = new Date(`${event.event_date}T${event.event_time || "23:59"}:00`);
+      return !Number.isNaN(when.getTime()) && when < new Date();
     }
     function statusClass(status) {
       return ({Accepted:"accepted", Bidding:"bidding", Reserve:"reserve"})[status] || "reserve";
@@ -257,13 +215,12 @@
         return `<article class="event-card">
           <div class="card-main">
             <div class="event-date">${escapeHTML(formatDate(e.event_date,e.event_time))}</div>
-            <span class="event-timer ${eventIsPast(e) ? "ended" : signupIsClosed(e) ? "closed" : ""}">${escapeHTML(eventTimerText(e))}</span>
             <h2>${escapeHTML(e.name)}</h2>
             <p>${escapeHTML(summary.length > 170 ? summary.slice(0,167) + "…" : summary || "More details coming soon.")}</p>
           </div>
           <div class="card-actions">
-            <button type="button" data-view="${escapeHTML(e.id)}">Event details <span aria-hidden="true">·</span> ${count} signed up</button>
-            ${!eventIsPast(e) && !signupIsClosed(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : ""}
+            <button type="button" data-view="${escapeHTML(e.id)}">View Event · ${count} signed up</button>
+            ${!eventIsPast(e) && !signupIsClosed(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : (!eventIsPast(e) ? `<button type="button" disabled>Sign-Ups Closed</button>` : "")}
           </div>
         </article>`;
       }).join("");
@@ -296,7 +253,7 @@
         <p class="details-description">${escapeHTML(e.description || "More details coming soon.")}</p>
         ${e.extra_details ? `<p class="details-description">${escapeHTML(e.extra_details)}</p>` : ""}
         <div class="attendance"><h3>Attendance (${attendees.length})</h3><ul class="attendee-list">${rows}</ul>
-        ${!eventIsPast(e) ? `<div class="form-actions"><button class="primary" id="details-signup" type="button">Sign Up</button></div>` : ""}</div>`);
+        ${!eventIsPast(e) && !signupIsClosed(e) ? `<div class="form-actions"><button class="primary" id="details-signup" type="button">Sign Up</button></div>` : (!eventIsPast(e) ? `<p class="muted">${escapeHTML(signupClosedReason(e))}</p>` : "")}</div>`);
       const sign = $("#details-signup");
       if (sign) sign.addEventListener("click", () => openSignup(id));
       $("#modal-content").querySelectorAll("[data-save-status]").forEach(b => b.addEventListener("click", () => saveAttendeeStatus(b.dataset.saveStatus)));
@@ -306,13 +263,12 @@
     function openSignup(id) {
       const e = events.find(item => item.id === id);
       if (!e) return;
-      if (eventIsPast(e)) { showNotice("This event has ended. It is listed under Past Events."); return; }
-      if (signupIsClosed(e)) { showNotice("Sign-ups close 1 hour before the event starts."); return; }
-      openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox. Each username can register once for this event.</p>
+      if (signupIsClosed(e)) { showNotice(signupClosedReason(e)); return; }
+      openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox.</p>
         <form id="signup-form">
           <label for="roblox-username">Roblox username</label>
           <input id="roblox-username" name="username" maxlength="20" minlength="3" pattern="[A-Za-z0-9_]+" autocomplete="off" required placeholder="YourRobloxUsername">
-          <p class="muted">After submitting, your status starts as <strong>Bidding</strong>. The event owner can change it to Accepted or Reserve. You can see your status in the event attendee list.</p>
+          <p class="muted">New sign-ups are marked Bidding until the event owner updates your status.</p>
           <div class="form-actions"><button type="button" id="signup-cancel">Cancel</button><button class="primary" type="submit">Submit Sign-Up</button></div>
           <p id="signup-status" class="status-line" role="status"></p>
         </form>`);
@@ -321,12 +277,13 @@
         ev.preventDefault();
         const username = $("#roblox-username").value.trim();
         const status = $("#signup-status");
-        if (eventIsPast(e) || signupIsClosed(e)) {
-          status.textContent = eventIsPast(e) ? "This event has ended; sign-ups are closed." : "Sign-ups close 1 hour before the event starts.";
-          return;
-        }
         if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
           status.textContent = "Enter a valid Roblox username (3–20 letters, numbers or underscores).";
+          return;
+        }
+        const latestEvent = events.find(item => item.id === id);
+        if (!latestEvent || signupIsClosed(latestEvent)) {
+          status.textContent = signupClosedReason(latestEvent || e) || "Sign-ups are closed.";
           return;
         }
         status.textContent = "Submitting…";
@@ -335,12 +292,12 @@
         });
         if (error) {
           status.textContent = error.code === "23505"
-            ? "This Roblox username is already signed up for this event. You can only sign up once per event."
+            ? "That username is already signed up for this event."
             : "Sign-up failed. " + error.message;
           return;
         }
         closeModal();
-        showNotice("Sign-up successful! Your status is Bidding for now. Open the event details to see your name and status.");
+        showNotice("Sign-up submitted successfully.");
         await loadEvents();
         openEvent(id);
       });
@@ -412,12 +369,50 @@
       openEvent(eventId);
     }
 
+    async function toggleSignups(id) {
+      if (!isOwner) return;
+      const event = events.find(item => item.id === id);
+      if (!event) return;
+      const nextValue = !event.signup_closed;
+      const { error } = await db.from("events").update({ signup_closed: nextValue }).eq("id", id);
+      if (error) {
+        setAdminStatus("Could not update sign-ups. Run the supplied database-update.sql first. " + error.message);
+        return;
+      }
+      setAdminStatus(nextValue ? `Sign-ups closed for "${event.name}".` : `Sign-ups reopened for "${event.name}".`);
+      await loadEvents();
+    }
+
+    async function togglePastEvent(id) {
+      if (!isOwner) return;
+      const event = events.find(item => item.id === id);
+      if (!event) return;
+      const nextValue = !event.is_past;
+      const { error } = await db.from("events").update({ is_past: nextValue }).eq("id", id);
+      if (error) {
+        setAdminStatus("Could not move the event. Run the supplied database-update.sql first. " + error.message);
+        return;
+      }
+      currentFilter = nextValue ? "past" : "upcoming";
+      document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.filter === currentFilter)));
+      setAdminStatus(nextValue ? `"${event.name}" moved to Past Events.` : `"${event.name}" restored to Upcoming Events.`);
+      await loadEvents();
+    }
+
     function renderAdminEvents() {
       if (!isOwner) return;
       $("#admin-events").innerHTML = events.length ? events.map(e => `<div class="admin-row">
         <div><strong>${escapeHTML(e.name)}</strong><span class="muted">${escapeHTML(formatDate(e.event_date,e.event_time))} · ${(attendeesByEvent[e.id] || []).length} sign-ups</span></div>
-        <div class="small-actions"><button type="button" data-edit="${escapeHTML(e.id)}">Edit</button><button type="button" data-manage="${escapeHTML(e.id)}">Attendance</button><button class="danger" type="button" data-delete="${escapeHTML(e.id)}">Delete</button></div>
+        <div class="small-actions">
+          <button type="button" data-toggle-signups="${escapeHTML(e.id)}">${e.signup_closed ? "Open Sign-Ups" : "Close Sign-Ups"}</button>
+          <button type="button" data-toggle-past="${escapeHTML(e.id)}">${e.is_past ? "Restore to Upcoming" : "Move to Past Events"}</button>
+          <button type="button" data-edit="${escapeHTML(e.id)}">Edit</button>
+          <button type="button" data-manage="${escapeHTML(e.id)}">Attendance</button>
+          <button class="danger" type="button" data-delete="${escapeHTML(e.id)}">Delete</button>
+        </div>
       </div>`).join("") : '<p class="muted">No events yet. Create your first event.</p>';
+      $("#admin-events").querySelectorAll("[data-toggle-signups]").forEach(b => b.addEventListener("click", () => toggleSignups(b.dataset.toggleSignups)));
+      $("#admin-events").querySelectorAll("[data-toggle-past]").forEach(b => b.addEventListener("click", () => togglePastEvent(b.dataset.togglePast)));
       $("#admin-events").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => openEventForm(b.dataset.edit)));
       $("#admin-events").querySelectorAll("[data-manage]").forEach(b => b.addEventListener("click", () => openEvent(b.dataset.manage)));
       $("#admin-events").querySelectorAll("[data-delete]").forEach(b => b.addEventListener("click", () => deleteEvent(b.dataset.delete)));
@@ -467,33 +462,25 @@
       await db.auth.signOut(); isOwner = false; await updateAuthUI(); showNotice("Signed out of admin.");
     });
     $("#create-event-button").addEventListener("click", () => { if (isOwner) openEventForm(); });
+    const refreshButton = $("#refresh-events-button");
+    if (refreshButton) refreshButton.addEventListener("click", async () => {
+      refreshButton.disabled = true;
+      refreshButton.textContent = "↻ Refreshing…";
+      await loadEvents();
+      refreshButton.disabled = false;
+      refreshButton.textContent = "↻ Refresh";
+    });
     document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => {
       currentFilter = b.dataset.filter;
       document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
       renderEvents();
     }));
-    $("#refresh-events-button").addEventListener("click", async () => {
-      const button = $("#refresh-events-button");
-      button.disabled = true;
-      button.textContent = "Refreshing…";
-      try {
-        await loadEvents();
-        if (db) showNotice("Events refreshed.");
-      } finally {
-        button.disabled = false;
-        button.textContent = "↻ Refresh";
-      }
-    });
 
     async function start() {
       if (!db) { await loadEvents(); return; }
       db.auth.onAuthStateChange(() => { setTimeout(updateAuthUI, 0); });
       await updateAuthUI();
       await loadEvents();
-      setInterval(() => {
-        renderEvents();
-        if (isOwner) renderAdminEvents();
-      }, 60000);
     }
     start();
   </script>
