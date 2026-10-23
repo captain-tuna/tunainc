@@ -30,6 +30,9 @@
     .event-card{border-radius:10px;overflow:hidden;transition:transform .15s,border-color .15s}
     .event-card:hover{border-color:#777;transform:translateY(-2px)}
     .event-date{display:inline-block;background:#252525;border:1px solid #444;border-radius:5px;padding:6px 9px;line-height:1.4}
+    .event-timer{display:block;margin:0 0 12px;color:#ddd;font-size:13px;line-height:1.45}
+    .event-timer.closed{color:#f0d99b}
+    .event-timer.ended{color:#aaa}
     .card-actions button{border-radius:6px}
     .filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
     .filters button[aria-pressed="true"]{background:#eee;color:#111;border-color:#eee}
@@ -137,7 +140,7 @@
       Never put a service_role key or database password in this public HTML file.
       Follow SETUP.md and run schema.sql before publishing.
     */
-       const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
+    const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_ciJ5111BIMnvh4fKubG74w_sY9kOGtO";
 
     const configured = SUPABASE_URL.startsWith("https://") &&
@@ -175,9 +178,31 @@
         ...(time ? {hour:"numeric",minute:"2-digit"} : {})
       }).format(d);
     }
-    function eventIsPast(event) {
+    function eventStart(event) {
+      if (!event.event_date) return null;
       const when = new Date(`${event.event_date}T${event.event_time || "23:59"}:00`);
-      return !Number.isNaN(when.getTime()) && when < new Date();
+      return Number.isNaN(when.getTime()) ? null : when;
+    }
+    function eventIsPast(event) {
+      const when = eventStart(event);
+      return !!when && when < new Date();
+    }
+    function signupIsClosed(event) {
+      const when = eventStart(event);
+      return !when || when.getTime() - Date.now() <= 60 * 60 * 1000;
+    }
+    function eventTimerText(event) {
+      const when = eventStart(event);
+      if (!when) return "Time to be announced";
+      const diff = when.getTime() - Date.now();
+      if (diff <= 0) return "Event ended · sign-ups closed";
+      if (diff <= 60 * 60 * 1000) return "Sign-ups closed · starts in less than 1 hour";
+      const totalMinutes = Math.floor(diff / 60000);
+      const days = Math.floor(totalMinutes / 1440);
+      const hours = Math.floor((totalMinutes % 1440) / 60);
+      const minutes = totalMinutes % 60;
+      const countdown = days ? `${days}d ${hours}h ${minutes}m` : hours ? `${hours}h ${minutes}m` : `${minutes}m`;
+      return `Starts in ${countdown} · sign-ups close 1 hour before`;
     }
     function statusClass(status) {
       return ({Accepted:"accepted", Bidding:"bidding", Reserve:"reserve"})[status] || "reserve";
@@ -232,12 +257,13 @@
         return `<article class="event-card">
           <div class="card-main">
             <div class="event-date">${escapeHTML(formatDate(e.event_date,e.event_time))}</div>
+            <span class="event-timer ${eventIsPast(e) ? "ended" : signupIsClosed(e) ? "closed" : ""}">${escapeHTML(eventTimerText(e))}</span>
             <h2>${escapeHTML(e.name)}</h2>
             <p>${escapeHTML(summary.length > 170 ? summary.slice(0,167) + "…" : summary || "More details coming soon.")}</p>
           </div>
           <div class="card-actions">
             <button type="button" data-view="${escapeHTML(e.id)}">Event details <span aria-hidden="true">·</span> ${count} signed up</button>
-            ${!eventIsPast(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : ""}
+            ${!eventIsPast(e) && !signupIsClosed(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : ""}
           </div>
         </article>`;
       }).join("");
@@ -280,7 +306,8 @@
     function openSignup(id) {
       const e = events.find(item => item.id === id);
       if (!e) return;
-      if (eventIsPast(e)) { showNotice("Sign-ups are closed for past events."); return; }
+      if (eventIsPast(e)) { showNotice("This event has ended. It is listed under Past Events."); return; }
+      if (signupIsClosed(e)) { showNotice("Sign-ups close 1 hour before the event starts."); return; }
       openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox. Each username can register once for this event.</p>
         <form id="signup-form">
           <label for="roblox-username">Roblox username</label>
@@ -294,6 +321,10 @@
         ev.preventDefault();
         const username = $("#roblox-username").value.trim();
         const status = $("#signup-status");
+        if (eventIsPast(e) || signupIsClosed(e)) {
+          status.textContent = eventIsPast(e) ? "This event has ended; sign-ups are closed." : "Sign-ups close 1 hour before the event starts.";
+          return;
+        }
         if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
           status.textContent = "Enter a valid Roblox username (3–20 letters, numbers or underscores).";
           return;
@@ -459,6 +490,10 @@
       db.auth.onAuthStateChange(() => { setTimeout(updateAuthUI, 0); });
       await updateAuthUI();
       await loadEvents();
+      setInterval(() => {
+        renderEvents();
+        if (isOwner) renderAdminEvents();
+      }, 60000);
     }
     start();
   </script>
