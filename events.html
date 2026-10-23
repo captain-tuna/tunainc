@@ -23,6 +23,7 @@
     button.primary:hover{background:#d5d5d5}
     button.danger{border-color:#854848;color:#ffbaba}
     button:disabled{opacity:.55;cursor:not-allowed}
+    #refresh-events-button{min-width:110px}
     .filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
     .filters button[aria-pressed="true"]{background:#eee;color:#111;border-color:#eee}
     .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:14px;max-width:1050px;margin:0 auto;text-align:left}
@@ -82,13 +83,13 @@
       <a class="button" href="index.html">← Information Centre</a>
       <button id="admin-login-button" type="button">Owner Admin Login</button>
       <button id="admin-logout-button" type="button" hidden>Log Out</button>
+      <button id="refresh-events-button" type="button">↻ Refresh</button>
     </div>
     <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
     <div class="filters" aria-label="Filter events">
       <button type="button" data-filter="upcoming" aria-pressed="true">Upcoming</button>
       <button type="button" data-filter="all" aria-pressed="false">All Events</button>
       <button type="button" data-filter="past" aria-pressed="false">Past Events</button>
-      <button type="button" id="refresh-events-button" aria-label="Refresh events">↻ Refresh</button>
     </div>
     <section id="events" class="events" aria-label="Events">
       <div class="empty">Loading events…</div>
@@ -120,7 +121,7 @@
       Never put a service_role key or database password in this public HTML file.
       Follow SETUP.md and run schema.sql before publishing.
     */
-    const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
+        const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_ciJ5111BIMnvh4fKubG74w_sY9kOGtO";
 
     const configured = SUPABASE_URL.startsWith("https://") &&
@@ -159,8 +160,12 @@
       }).format(d);
     }
     function eventIsPast(event) {
+      if (event.is_past === true) return true;
       const when = new Date(`${event.event_date}T${event.event_time || "23:59"}:00`);
       return !Number.isNaN(when.getTime()) && when < new Date();
+    }
+    function signupIsClosed(event) {
+      return event.signup_closed === true || eventIsPast(event);
     }
     function statusClass(status) {
       return ({Accepted:"accepted", Bidding:"bidding", Reserve:"reserve"})[status] || "reserve";
@@ -220,7 +225,7 @@
           </div>
           <div class="card-actions">
             <button type="button" data-view="${escapeHTML(e.id)}">View Event · ${count} signed up</button>
-            ${!eventIsPast(e) && !signupIsClosed(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : (!eventIsPast(e) ? `<button type="button" disabled>Sign-Ups Closed</button>` : "")}
+            ${!signupIsClosed(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : (!eventIsPast(e) ? `<button type="button" disabled>Sign-Ups Closed</button>` : "")}
           </div>
         </article>`;
       }).join("");
@@ -253,7 +258,7 @@
         <p class="details-description">${escapeHTML(e.description || "More details coming soon.")}</p>
         ${e.extra_details ? `<p class="details-description">${escapeHTML(e.extra_details)}</p>` : ""}
         <div class="attendance"><h3>Attendance (${attendees.length})</h3><ul class="attendee-list">${rows}</ul>
-        ${!eventIsPast(e) && !signupIsClosed(e) ? `<div class="form-actions"><button class="primary" id="details-signup" type="button">Sign Up</button></div>` : (!eventIsPast(e) ? `<p class="muted">${escapeHTML(signupClosedReason(e))}</p>` : "")}</div>`);
+        ${!eventIsPast(e) ? `<div class="form-actions"><button class="primary" id="details-signup" type="button">Sign Up</button></div>` : ""}</div>`);
       const sign = $("#details-signup");
       if (sign) sign.addEventListener("click", () => openSignup(id));
       $("#modal-content").querySelectorAll("[data-save-status]").forEach(b => b.addEventListener("click", () => saveAttendeeStatus(b.dataset.saveStatus)));
@@ -263,7 +268,7 @@
     function openSignup(id) {
       const e = events.find(item => item.id === id);
       if (!e) return;
-      if (signupIsClosed(e)) { showNotice(signupClosedReason(e)); return; }
+      if (signupIsClosed(e)) { showNotice(eventIsPast(e) ? "Sign-ups are closed for past events." : "Sign-ups are currently closed for this event."); return; }
       openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox.</p>
         <form id="signup-form">
           <label for="roblox-username">Roblox username</label>
@@ -279,11 +284,6 @@
         const status = $("#signup-status");
         if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
           status.textContent = "Enter a valid Roblox username (3–20 letters, numbers or underscores).";
-          return;
-        }
-        const latestEvent = events.find(item => item.id === id);
-        if (!latestEvent || signupIsClosed(latestEvent)) {
-          status.textContent = signupClosedReason(latestEvent || e) || "Sign-ups are closed.";
           return;
         }
         status.textContent = "Submitting…";
@@ -345,8 +345,20 @@
     async function deleteEvent(id) {
       const e = events.find(item => item.id === id);
       if (!e || !confirm(`Delete "${e.name}" and its attendance list? This cannot be undone.`)) return;
+      setAdminStatus(`Deleting "${e.name}"…`);
+      // Remove all attendee rows for this event in one request, so schemas without
+      // an ON DELETE CASCADE still allow the event to be deleted cleanly.
+      const attendeeDelete = await db.from("attendees").delete().eq("event_id", id);
+      if (attendeeDelete.error) {
+        setAdminStatus("Could not delete the event's attendee records: " + attendeeDelete.error.message);
+        return;
+      }
       const { error } = await db.from("events").delete().eq("id", id);
-      if (error) { setAdminStatus("Delete failed: " + error.message); return; }
+      if (error) { setAdminStatus("Attendees were removed, but the event could not be deleted: " + error.message); await loadEvents(); return; }
+      events = events.filter(item => String(item.id) !== String(id));
+      delete attendeesByEvent[id];
+      renderEvents();
+      renderAdminEvents();
       setAdminStatus("Event deleted.");
       await loadEvents();
     }
@@ -371,45 +383,34 @@
 
     async function toggleSignups(id) {
       if (!isOwner) return;
-      const event = events.find(item => item.id === id);
+      const event = events.find(item => String(item.id) === String(id));
       if (!event) return;
       const nextValue = !event.signup_closed;
       const { error } = await db.from("events").update({ signup_closed: nextValue }).eq("id", id);
-      if (error) {
-        setAdminStatus("Could not update sign-ups. Run the supplied database-update.sql first. " + error.message);
-        return;
-      }
+      if (error) { setAdminStatus("Could not change sign-ups. Confirm the database update has been applied. " + error.message); return; }
+      event.signup_closed = nextValue;
+      renderEvents(); renderAdminEvents();
       setAdminStatus(nextValue ? `Sign-ups closed for "${event.name}".` : `Sign-ups reopened for "${event.name}".`);
-      await loadEvents();
     }
-
     async function togglePastEvent(id) {
       if (!isOwner) return;
-      const event = events.find(item => item.id === id);
+      const event = events.find(item => String(item.id) === String(id));
       if (!event) return;
       const nextValue = !event.is_past;
       const { error } = await db.from("events").update({ is_past: nextValue }).eq("id", id);
-      if (error) {
-        setAdminStatus("Could not move the event. Run the supplied database-update.sql first. " + error.message);
-        return;
-      }
+      if (error) { setAdminStatus("Could not move the event. Confirm the database update has been applied. " + error.message); return; }
+      event.is_past = nextValue;
       currentFilter = nextValue ? "past" : "upcoming";
       document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.filter === currentFilter)));
-      setAdminStatus(nextValue ? `"${event.name}" moved to Past Events.` : `"${event.name}" restored to Upcoming Events.`);
-      await loadEvents();
+      renderEvents(); renderAdminEvents();
+      setAdminStatus(nextValue ? `"${event.name}" moved to Past Events.` : `"${event.name}" restored from manual Past Events.`);
     }
 
     function renderAdminEvents() {
       if (!isOwner) return;
       $("#admin-events").innerHTML = events.length ? events.map(e => `<div class="admin-row">
-        <div><strong>${escapeHTML(e.name)}</strong><span class="muted">${escapeHTML(formatDate(e.event_date,e.event_time))} · ${(attendeesByEvent[e.id] || []).length} sign-ups</span></div>
-        <div class="small-actions">
-          <button type="button" data-toggle-signups="${escapeHTML(e.id)}">${e.signup_closed ? "Open Sign-Ups" : "Close Sign-Ups"}</button>
-          <button type="button" data-toggle-past="${escapeHTML(e.id)}">${e.is_past ? "Restore to Upcoming" : "Move to Past Events"}</button>
-          <button type="button" data-edit="${escapeHTML(e.id)}">Edit</button>
-          <button type="button" data-manage="${escapeHTML(e.id)}">Attendance</button>
-          <button class="danger" type="button" data-delete="${escapeHTML(e.id)}">Delete</button>
-        </div>
+        <div><strong>${escapeHTML(e.name)}</strong><span class="muted">${escapeHTML(formatDate(e.event_date,e.event_time))} · ${(attendeesByEvent[e.id] || []).length} sign-ups${e.signup_closed ? " · Sign-ups closed" : ""}${e.is_past ? " · Manually moved to Past Events" : ""}</span></div>
+        <div class="small-actions"><button type="button" data-toggle-signups="${escapeHTML(e.id)}">${e.signup_closed ? "Open Sign-Ups" : "Close Sign-Ups"}</button><button type="button" data-toggle-past="${escapeHTML(e.id)}">${e.is_past ? "Restore to Upcoming" : "Move to Past Events"}</button><button type="button" data-edit="${escapeHTML(e.id)}">Edit</button><button type="button" data-manage="${escapeHTML(e.id)}">Attendance</button><button class="danger" type="button" data-delete="${escapeHTML(e.id)}">Delete</button></div>
       </div>`).join("") : '<p class="muted">No events yet. Create your first event.</p>';
       $("#admin-events").querySelectorAll("[data-toggle-signups]").forEach(b => b.addEventListener("click", () => toggleSignups(b.dataset.toggleSignups)));
       $("#admin-events").querySelectorAll("[data-toggle-past]").forEach(b => b.addEventListener("click", () => togglePastEvent(b.dataset.togglePast)));
@@ -462,25 +463,27 @@
       await db.auth.signOut(); isOwner = false; await updateAuthUI(); showNotice("Signed out of admin.");
     });
     $("#create-event-button").addEventListener("click", () => { if (isOwner) openEventForm(); });
-    const refreshButton = $("#refresh-events-button");
-    if (refreshButton) refreshButton.addEventListener("click", async () => {
-      refreshButton.disabled = true;
-      refreshButton.textContent = "↻ Refreshing…";
-      await loadEvents();
-      refreshButton.disabled = false;
-      refreshButton.textContent = "↻ Refresh";
-    });
     document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => {
       currentFilter = b.dataset.filter;
       document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
       renderEvents();
     }));
 
+    const refreshButton = $("#refresh-events-button");
+    if (refreshButton) refreshButton.addEventListener("click", async () => {
+      refreshButton.disabled = true;
+      refreshButton.textContent = "↻ Refreshing…";
+      try { await loadEvents(); showNotice("Events refreshed."); }
+      finally { refreshButton.disabled = false; refreshButton.textContent = "↻ Refresh"; }
+    });
+
     async function start() {
       if (!db) { await loadEvents(); return; }
       db.auth.onAuthStateChange(() => { setTimeout(updateAuthUI, 0); });
       await updateAuthUI();
       await loadEvents();
+      // Keep the public list reasonably fresh without forcing visitors to reload.
+      window.setInterval(() => { if (!document.hidden) loadEvents(); }, 30000);
     }
     start();
   </script>
