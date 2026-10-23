@@ -23,6 +23,14 @@
     button.primary:hover{background:#d5d5d5}
     button.danger{border-color:#854848;color:#ffbaba}
     button:disabled{opacity:.55;cursor:not-allowed}
+    .quick-guide{max-width:1050px;margin:0 auto 22px;padding:14px 16px;border:1px solid #3f3f3f;background:rgba(20,20,20,.86);text-align:left;border-radius:8px}
+    .quick-guide strong{display:block;margin-bottom:6px;color:#fff}
+    .quick-guide p{margin:0;color:#bbb;line-height:1.55;font-size:14px}
+    .status-guide{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+    .event-card{border-radius:10px;overflow:hidden;transition:transform .15s,border-color .15s}
+    .event-card:hover{border-color:#777;transform:translateY(-2px)}
+    .event-date{display:inline-block;background:#252525;border:1px solid #444;border-radius:5px;padding:6px 9px;line-height:1.4}
+    .card-actions button{border-radius:6px}
     .filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px}
     .filters button[aria-pressed="true"]{background:#eee;color:#111;border-color:#eee}
     .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:14px;max-width:1050px;margin:0 auto;text-align:left}
@@ -84,10 +92,20 @@
       <button id="admin-logout-button" type="button" hidden>Log Out</button>
     </div>
     <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <section class="quick-guide" aria-label="How sign-ups work">
+      <strong>How it works</strong>
+      <p>Choose an event to read the details, then sign up with your Roblox username. You can only sign up once per event with the same username. Your current status appears beside your name in the attendee list.</p>
+      <div class="status-guide" aria-label="Status meanings">
+        <span class="status bidding">Bidding · Awaiting decision</span>
+        <span class="status accepted">Accepted · Confirmed</span>
+        <span class="status reserve">Reserve · Backup list</span>
+      </div>
+    </section>
     <div class="filters" aria-label="Filter events">
       <button type="button" data-filter="upcoming" aria-pressed="true">Upcoming</button>
       <button type="button" data-filter="all" aria-pressed="false">All Events</button>
       <button type="button" data-filter="past" aria-pressed="false">Past Events</button>
+      <button type="button" id="refresh-events-button" aria-label="Refresh events">↻ Refresh</button>
     </div>
     <section id="events" class="events" aria-label="Events">
       <div class="empty">Loading events…</div>
@@ -119,7 +137,7 @@
       Never put a service_role key or database password in this public HTML file.
       Follow SETUP.md and run schema.sql before publishing.
     */
-    const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
+       const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_ciJ5111BIMnvh4fKubG74w_sY9kOGtO";
 
     const configured = SUPABASE_URL.startsWith("https://") &&
@@ -218,7 +236,7 @@
             <p>${escapeHTML(summary.length > 170 ? summary.slice(0,167) + "…" : summary || "More details coming soon.")}</p>
           </div>
           <div class="card-actions">
-            <button type="button" data-view="${escapeHTML(e.id)}">View Event · ${count} signed up</button>
+            <button type="button" data-view="${escapeHTML(e.id)}">Event details <span aria-hidden="true">·</span> ${count} signed up</button>
             ${!eventIsPast(e) ? `<button class="primary" type="button" data-signup="${escapeHTML(e.id)}">Sign Up</button>` : ""}
           </div>
         </article>`;
@@ -263,11 +281,11 @@
       const e = events.find(item => item.id === id);
       if (!e) return;
       if (eventIsPast(e)) { showNotice("Sign-ups are closed for past events."); return; }
-      openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox.</p>
+      openModal("Sign Up · " + e.name, `<p class="muted">Enter your Roblox username exactly as it appears on Roblox. Each username can register once for this event.</p>
         <form id="signup-form">
           <label for="roblox-username">Roblox username</label>
           <input id="roblox-username" name="username" maxlength="20" minlength="3" pattern="[A-Za-z0-9_]+" autocomplete="off" required placeholder="YourRobloxUsername">
-          <p class="muted">New sign-ups are marked Bidding until the event owner updates your status.</p>
+          <p class="muted">After submitting, your status starts as <strong>Bidding</strong>. The event owner can change it to Accepted or Reserve. You can see your status in the event attendee list.</p>
           <div class="form-actions"><button type="button" id="signup-cancel">Cancel</button><button class="primary" type="submit">Submit Sign-Up</button></div>
           <p id="signup-status" class="status-line" role="status"></p>
         </form>`);
@@ -286,12 +304,12 @@
         });
         if (error) {
           status.textContent = error.code === "23505"
-            ? "That username is already signed up for this event."
+            ? "This Roblox username is already signed up for this event. You can only sign up once per event."
             : "Sign-up failed. " + error.message;
           return;
         }
         closeModal();
-        showNotice("Sign-up submitted successfully.");
+        showNotice("Sign-up successful! Your status is Bidding for now. Open the event details to see your name and status.");
         await loadEvents();
         openEvent(id);
       });
@@ -423,6 +441,18 @@
       document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
       renderEvents();
     }));
+    $("#refresh-events-button").addEventListener("click", async () => {
+      const button = $("#refresh-events-button");
+      button.disabled = true;
+      button.textContent = "Refreshing…";
+      try {
+        await loadEvents();
+        if (db) showNotice("Events refreshed.");
+      } finally {
+        button.disabled = false;
+        button.textContent = "↻ Refresh";
+      }
+    });
 
     async function start() {
       if (!db) { await loadEvents(); return; }
