@@ -29,6 +29,10 @@
     .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,265px),1fr));gap:14px;max-width:1050px;margin:0 auto;text-align:left}
     .event-card{background:rgba(22,22,22,.95);border:1px solid #444;display:flex;flex-direction:column;min-height:230px}
     .event-card .card-main{padding:20px;flex:1}
+    .event-image{display:block;width:100%;max-height:240px;object-fit:cover;border-bottom:1px solid #444}
+    .event-image-modal{display:block;width:100%;max-height:360px;object-fit:contain;margin:0 0 18px;background:#090909}
+    .image-preview{display:block;max-width:100%;max-height:220px;object-fit:contain;margin:10px 0;border:1px solid #444}
+    .image-help{font-size:12px;color:#aaa;line-height:1.5}
     .event-date{font-size:12px;text-transform:uppercase;letter-spacing:1.1px;color:#c7c7c7;margin-bottom:12px}
     .event-card h2{font-size:21px;font-weight:500;margin:0 0 12px;overflow-wrap:anywhere}
     .event-card p{color:#c4c4c4;line-height:1.55;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -121,7 +125,7 @@
       Never put a service_role key or database password in this public HTML file.
       Follow SETUP.md and run schema.sql before publishing.
     */
-        const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
+    const SUPABASE_URL = "https://rhhdyhggvdftpzyooubi.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_ciJ5111BIMnvh4fKubG74w_sY9kOGtO";
 
     const configured = SUPABASE_URL.startsWith("https://") &&
@@ -218,6 +222,7 @@
         const count = (attendeesByEvent[e.id] || []).length;
         const summary = (e.description || "").trim();
         return `<article class="event-card">
+          ${e.image_url ? `<img class="event-image" src="${escapeHTML(e.image_url)}" alt="Image for ${escapeHTML(e.name)}" loading="lazy">` : ""}
           <div class="card-main">
             <div class="event-date">${escapeHTML(formatDate(e.event_date,e.event_time))}</div>
             <h2>${escapeHTML(e.name)}</h2>
@@ -254,7 +259,7 @@
           ${["Accepted","Bidding","Reserve"].map(s => `<option ${a.status===s?"selected":""}>${s}</option>`).join("")}
         </select><button type="button" data-save-status="${escapeHTML(a.id)}">Save</button><button class="danger" type="button" data-remove-attendee="${escapeHTML(a.id)}">Remove</button></div>` : ""}
       </li>`).join("") : '<li class="muted">No one has signed up yet.</li>';
-      openModal(e.name, `<div class="event-date">${escapeHTML(formatDate(e.event_date,e.event_time))}${e.location ? " · " + escapeHTML(e.location) : ""}</div>
+      openModal(e.name, `${e.image_url ? `<img class="event-image-modal" src="${escapeHTML(e.image_url)}" alt="Image for ${escapeHTML(e.name)}">` : ""}<div class="event-date">${escapeHTML(formatDate(e.event_date,e.event_time))}${e.location ? " · " + escapeHTML(e.location) : ""}</div>
         <p class="details-description">${escapeHTML(e.description || "More details coming soon.")}</p>
         ${e.extra_details ? `<p class="details-description">${escapeHTML(e.extra_details)}</p>` : ""}
         <div class="attendance"><h3>Attendance (${attendees.length})</h3><ul class="attendee-list">${rows}</ul>
@@ -315,6 +320,10 @@
         <label for="event-location">Location / server (optional)</label><input id="event-location" maxlength="150" value="${escapeHTML(e?.location || "")}">
         <label for="event-description">Description *</label><textarea id="event-description" maxlength="5000" required>${escapeHTML(e?.description || "")}</textarea>
         <label for="event-extra">Additional details (optional)</label><textarea id="event-extra" maxlength="5000">${escapeHTML(e?.extra_details || "")}</textarea>
+        <label for="event-image">Event image (optional)</label>
+        <input id="event-image" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+        <p class="image-help">Upload a JPG, PNG, WebP, or GIF up to 5 MB. It will appear on the event card and event details. Supabase Storage setup is required; see IMAGE-SETUP.sql.</p>
+        ${e?.image_url ? `<p class="muted">Current image:</p><img class="image-preview" src="${escapeHTML(e.image_url)}" alt="Current event image"><label><input id="event-remove-image" type="checkbox"> Remove current image</label>` : ""}
         <div class="form-actions"><button type="button" id="event-cancel">Cancel</button><button class="primary" type="submit">${e ? "Save Changes" : "Create Event"}</button></div>
         <p id="event-form-status" class="status-line" role="status"></p>
       </form>`);
@@ -327,11 +336,25 @@
           event_time:$("#event-time").value || null,
           location:$("#event-location").value.trim() || null,
           description:$("#event-description").value.trim(),
-          extra_details:$("#event-extra").value.trim() || null
+          extra_details:$("#event-extra").value.trim() || null,
+          image_url: (e && $("#event-remove-image")?.checked) ? null : (e?.image_url || null)
         };
         if (!payload.name || !payload.event_date || !payload.description) return;
         const status = $("#event-form-status");
         status.textContent = "Saving…";
+        const imageFile = $("#event-image").files?.[0];
+        if (imageFile) {
+          if (!/^image\/(png|jpeg|webp|gif)$/.test(imageFile.type) || imageFile.size > 5 * 1024 * 1024) {
+            status.textContent = "Choose a JPG, PNG, WebP, or GIF image no larger than 5 MB."; return;
+          }
+          const ext = ({"image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/gif":"gif"})[imageFile.type];
+          const path = `${crypto.randomUUID()}.${ext}`;
+          status.textContent = "Uploading image…";
+          const upload = await db.storage.from("event-images").upload(path, imageFile, { upsert:false, contentType:imageFile.type });
+          if (upload.error) { status.textContent = "Image upload failed: " + upload.error.message + " (check IMAGE-SETUP.sql was run)."; return; }
+          payload.image_url = db.storage.from("event-images").getPublicUrl(path).data.publicUrl;
+        }
+        status.textContent = "Saving event…";
         const result = e
           ? await db.from("events").update(payload).eq("id", id)
           : await db.from("events").insert(payload);
